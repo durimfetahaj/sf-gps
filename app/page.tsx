@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { getDrivers } from "./actions/drivers";
 import { DriverCard } from "@/components/ui/DriverCard";
 
