@@ -1,0 +1,166 @@
+// components/vehicles/vehicle-create-form.tsx
+"use client";
+
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { vehicleSchema, VehicleFormValues } from "@/lib/validators/vehicle";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { createVehicle } from "@/app/actions/vehicle";
+
+export function VehicleCreateForm() {
+  const form = useForm<VehicleFormValues>({
+    resolver: zodResolver(vehicleSchema),
+    defaultValues: {
+      licensePlate: "",
+      manufacturer: "",
+      modelType: "",
+      serialNumber: "",
+      chassisNumber: "",
+      mileage: undefined,
+      hasGps: false,
+      notes: "",
+    },
+  });
+
+  async function onSubmit(values: VehicleFormValues) {
+    try {
+      await createVehicle(values);
+      alert("Vehicle created!");
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to create vehicle");
+    }
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="licensePlate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Kennzeichen</FormLabel>
+              <FormControl>
+                <Input placeholder="LIP-SF 123" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="manufacturer"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Herstellerin</FormLabel>
+              <FormControl>
+                <Input placeholder="Mercedes, Volvo..." {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="modelType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Modelltyp</FormLabel>
+              <FormControl>
+                <Input placeholder="Actros, FH16..." {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="serialNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Seriennummer</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Seriennumer" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="chassisNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Fahrgestellnummer (FIN)</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="FIN" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="mileage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Kilometerstand (km)</FormLabel>
+              <FormControl>
+                <Input type="number" {...field} placeholder="100,000" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="hasGps"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center space-x-2">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel>Hat GPS?</FormLabel>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Notizen</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Any additional remarks..." {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <div className="flex justify-end pt-4">
+          <Button type="submit">Fahrzeug erstellen</Button>
+        </div>
+      </form>
+    </Form>
+  );
+}
