@@ -3,6 +3,7 @@
 import { Vehicle } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 
 // Export columns as a named export
 export const vehicleColumns: ColumnDef<Vehicle>[] = [
@@ -47,17 +48,17 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const vehicle = row.original;
-      return null;
-      /* <div className="flex gap-2">
+    cell: () => {
+      return (
+        <div className="flex gap-2">
           <Button variant="outline" size="sm">
             Edit
           </Button>
           <Button variant="destructive" size="sm">
             Delete
           </Button>
-        </div> */
+        </div>
+      );
     },
   },
 ];
