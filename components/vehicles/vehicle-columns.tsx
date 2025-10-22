@@ -3,9 +3,15 @@
 import { Vehicle } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
 
-// Export columns as a named export
+const defaultCell =
+  (fallback = "—") =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ({ getValue }: any) => {
+    const value = getValue();
+    return value && value.trim() !== "" ? value : fallback;
+  };
+
 export const vehicleColumns: ColumnDef<Vehicle>[] = [
   {
     accessorKey: "licensePlate",
@@ -36,27 +42,26 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
   {
     accessorKey: "manufacturer",
     header: "Manufacturer",
+    cell: defaultCell("N/A"),
   },
   {
     accessorKey: "modelType",
     header: "Model",
+    cell: defaultCell("N/A"),
   },
   {
     accessorKey: "mileage",
-    header: "Mileage (km)",
-    cell: (info) => info.getValue() ?? "—",
-  },
-  {
-    id: "actions",
-    cell: () => {
+    header: () => <div className="text-center">Mileage (km)</div>,
+    cell: (info) => {
+      const rawValue = info.getValue();
+      const value = Number(rawValue);
+
+      if (isNaN(value) || value === 0)
+        return <div className="text-center">N/A</div>;
+
       return (
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm">
-            Edit
-          </Button>
-          <Button variant="destructive" size="sm">
-            Delete
-          </Button>
+        <div className="text-center">
+          {new Intl.NumberFormat("en-US").format(value)}
         </div>
       );
     },

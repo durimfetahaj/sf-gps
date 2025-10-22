@@ -1,11 +1,13 @@
 // components/vehicles/vehicle-create-form.tsx
 "use client";
 
-import * as React from "react";
-import { useForm } from "react-hook-form";
+import { VehicleFormValues, vehicleSchema } from "@/lib/validators/vehicle";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { vehicleSchema, VehicleFormValues } from "@/lib/validators/vehicle";
+import { useForm } from "react-hook-form";
 
+import { createVehicle } from "@/app/actions/vehicle";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -16,11 +18,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { createVehicle } from "@/app/actions/vehicle";
+import { toast } from "sonner";
 
-export function VehicleCreateForm() {
+export function VehicleCreateForm({ onSuccess }: { onSuccess?: () => void }) {
   const form = useForm<VehicleFormValues>({
     resolver: zodResolver(vehicleSchema),
     defaultValues: {
@@ -29,7 +29,7 @@ export function VehicleCreateForm() {
       modelType: "",
       serialNumber: "",
       chassisNumber: "",
-      mileage: undefined,
+      mileage: 0,
       hasGps: false,
       notes: "",
     },
@@ -38,10 +38,11 @@ export function VehicleCreateForm() {
   async function onSubmit(values: VehicleFormValues) {
     try {
       await createVehicle(values);
-      alert("Vehicle created!");
-      form.reset();
+      toast.success("Vehicle created successfully!");
+      onSuccess?.();
     } catch (err) {
       console.error(err);
+
       alert("Failed to create vehicle");
     }
   }
@@ -122,8 +123,16 @@ export function VehicleCreateForm() {
             <FormItem>
               <FormLabel>Kilometerstand (km)</FormLabel>
               <FormControl>
-                <Input type="number" {...field} placeholder="100,000" />
+                <Input
+                  type="number"
+                  {...field}
+                  placeholder="100,000"
+                  onChange={(e) =>
+                    field.onChange(e.target.value ? Number(e.target.value) : 0)
+                  }
+                />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

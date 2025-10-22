@@ -3,6 +3,7 @@
 
 import prisma from "@/lib/prisma";
 import { vehicleSchema } from "@/lib/validators/vehicle";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export type VehicleFormValues = z.infer<typeof vehicleSchema>;
@@ -36,6 +37,8 @@ export async function createVehicle(data: VehicleFormValues) {
       notes: parsed.notes,
     },
   });
+
+  revalidatePath("/posts");
 
   return vehicle;
 }
