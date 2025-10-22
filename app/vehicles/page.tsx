@@ -1,7 +1,7 @@
 import { VehicleCreateDialog } from "@/components/vehicles/vehicle-create-dialog";
-import { VehicleDataTable } from "@/components/vehicles/vehicle-data-table";
 import { getVehicles } from "../actions/vehicle";
 import { vehicleColumns } from "@/components/vehicles/vehicle-columns";
+import { DataTable } from "@/components/DataTable";
 
 export default async function VehiclesPage() {
   const vehicles = await getVehicles();
@@ -12,7 +12,11 @@ export default async function VehiclesPage() {
         <VehicleCreateDialog />
       </div>
       {vehicles.length > 0 ? (
-        <VehicleDataTable data={vehicles} columns={vehicleColumns} />
+        <DataTable
+          data={vehicles}
+          columns={vehicleColumns}
+          searchPlaceholder="Search vehicles..."
+        />
       ) : (
         <p>No vehicles available.</p>
       )}

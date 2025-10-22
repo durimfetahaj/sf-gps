@@ -67,34 +67,34 @@ model Verification {
 }
 
 model Driver {
-  id             String    @id @default(cuid())
-  fullName       String
-  hasDiscrepancy Boolean   @default(false)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  workLogs       WorkLog[]
-  vehicles       Vehicle[] @relation("DriverToVehicle")
+  id              String    @id @default(cuid())
+  fullName        String
+  hasDiscrepancy  Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  employmentStart DateTime?
+  workLogs        WorkLog[]
+  vehicles        Vehicle[] @relation("DriverToVehicle")
 
   @@map("drivers")
 }
 
 model Vehicle {
   id              String    @id @default(cuid())
-  licensePlate    String    @unique // License plate
-  manufacturer    String? // Manufacturer (optional)
-  modelType       String? // Type / Model (optional)
-  serialNumber    String? // Serial number (optional)
-  chassisNumber   String? // Chassis number / VIN (optional)
-  nextInspection  DateTime? // Next inspection (TÜV / MOT) (optional)
-  spCheck         DateTime? // Safety inspection (SP check) (optional)
-  uvvCheck        DateTime? // Accident prevention inspection (UVV) (optional)
-  craneInspection DateTime? // Crane inspection (optional)
-  mileage         Int? // Mileage / Odometer (optional)
-  hasGps          Boolean? // GPS installed (optional)
-  notes           String? // Notes / Remarks (optional)
-
-  workLogs WorkLog[]
-  drivers  Driver[]  @relation("DriverToVehicle")
+  licensePlate    String    @unique
+  manufacturer    String?
+  modelType       String?
+  serialNumber    String?
+  chassisNumber   String?
+  nextInspection  DateTime?
+  spCheck         DateTime?
+  uvvCheck        DateTime?
+  craneInspection DateTime?
+  mileage         Int?
+  hasGps          Boolean?
+  notes           String?
+  workLogs        WorkLog[]
+  drivers         Driver[]  @relation("DriverToVehicle")
 
   @@map("vehicles")
 }

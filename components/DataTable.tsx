@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import {
   ColumnDef,
   flexRender,
@@ -16,17 +17,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
-import { Input } from "../ui/input";
+import { Input } from "./ui/input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  searchPlaceholder?: string;
+  tableClassName?: string;
+  noResultsText?: string;
 }
 
-export function VehicleDataTable<TData, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
+  searchPlaceholder = "Search...",
+  tableClassName = "",
+  noResultsText = "No results.",
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState("");
 
@@ -35,6 +41,7 @@ export function VehicleDataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    state: { globalFilter },
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: (row, filterValue) => {
       return row
@@ -45,42 +52,40 @@ export function VehicleDataTable<TData, TValue>({
             .includes(String(filterValue).toLowerCase())
         );
     },
-    state: {
-      globalFilter,
-    },
   });
 
   return (
     <div className="flex flex-col gap-4">
+      {/* Global Search */}
       <Input
-        placeholder="Search all fields..."
+        placeholder={searchPlaceholder}
         value={globalFilter}
         onChange={(e) => setGlobalFilter(e.target.value)}
         className="max-w-sm"
       />
 
-      <div className="overflow-hidden rounded-md border ">
+      {/* Table */}
+      <div className={`overflow-hidden rounded-md border ${tableClassName}`}>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
+
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -102,7 +107,7 @@ export function VehicleDataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {noResultsText}
                 </TableCell>
               </TableRow>
             )}
