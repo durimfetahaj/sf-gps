@@ -95,8 +95,24 @@ model Vehicle {
   notes           String?
   workLogs        WorkLog[]
   drivers         Driver[]  @relation("DriverToVehicle")
+  services        Service[] // relation to service/workshop records
 
   @@map("vehicles")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
+  vehicleId   String
+  date        DateTime
+  type        String // e.g., "Inspection", "Repair", "Oil Change", "Crane Check"
+  kmStand     Int?
+  ticketNr    String? // corresponds to T.-Nr
+  description String? // corresponds to Bezeichnung
+  quantity    Int? // corresponds to menge
+  comment     String? // additional notes
+
+  @@map("services")
 }
 
 model WorkLog {
