@@ -4,8 +4,10 @@ import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 
 interface WorkLogsTableProps {
-  workLogs: Array<any>;
-  vehicles: Array<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  workLogs: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  vehicles: any[];
 }
 
 export function WorkLogsTable({ workLogs, vehicles }: WorkLogsTableProps) {
@@ -19,7 +21,7 @@ export function WorkLogsTable({ workLogs, vehicles }: WorkLogsTableProps) {
     });
   };
 
-  const columns: ColumnDef<typeof workLogs[number]>[] = [
+  const columns: ColumnDef<(typeof workLogs)[number]>[] = [
     {
       header: "Date",
       accessorKey: "date",
@@ -40,7 +42,9 @@ export function WorkLogsTable({ workLogs, vehicles }: WorkLogsTableProps) {
       cell: ({ getValue }) => {
         const diff = getValue() as number | null;
         return (
-          <span className={diff && diff > 0 ? "text-red-600" : "text-green-600"}>
+          <span
+            className={diff && diff > 0 ? "text-red-600" : "text-green-600"}
+          >
             {diff ?? 0} min
           </span>
         );

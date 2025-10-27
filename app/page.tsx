@@ -1,6 +1,5 @@
 import { DriverCard } from "@/components/DriverCards";
 import { getDrivers } from "./actions/drivers";
-import { CloudCog } from "lucide-react";
 
 export default async function Home() {
   const drivers = await getDrivers();
