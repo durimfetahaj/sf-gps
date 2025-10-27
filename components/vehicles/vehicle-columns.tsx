@@ -3,6 +3,7 @@
 import { Vehicle } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "../ui/badge";
+import { useRouter } from "next/navigation";
 
 const defaultCell =
   (fallback = "—") =>
@@ -16,6 +17,19 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
   {
     accessorKey: "licensePlate",
     header: "License Plate",
+    cell: ({ row }) => {
+      const router = useRouter();
+      const licensePlate = row.original.licensePlate;
+
+      return (
+        <button
+          className="text-blue-600 hover:underline cursor-pointer"
+          onClick={() => router.push(`/vehicles/${row.original.id}`)}
+        >
+          {licensePlate || "N/A"}
+        </button>
+      );
+    },
   },
   {
     accessorKey: "hasGps",
