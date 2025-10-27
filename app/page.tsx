@@ -3,8 +3,7 @@ import { getDrivers } from "./actions/drivers";
 import { CloudCog } from "lucide-react";
 
 export default async function Home() {
-   const drivers = await getDrivers();
-
+  const drivers = await getDrivers();
 
   return (
     <div className="p-6 space-y-8">
@@ -19,7 +18,7 @@ export default async function Home() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
-          {drivers.map((d) => (
+        {drivers.map((d) => (
           <DriverCard
             key={d.id}
             id={d.id}
