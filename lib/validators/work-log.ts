@@ -1,9 +1,8 @@
 import { z } from "zod";
 
 export const workLogSchema = z.object({
-  driverId: z.string().min(1, "Driver is required"),
-  vehicleId: z.string().optional(),
-  foreman: z.string().min(1, "Foreman is required"),
+  vehicleId: z.string().nonempty("Vehicle is required"),
+  driverId: z.string().optional(),
   gpsStartTime: z.string().min(1, "GPS start time is required"), // ISO string
   gpsEndTime: z.string().min(1, "GPS end time is required"), // ISO string
   breakTime: z.string().optional(),

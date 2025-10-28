@@ -16,7 +16,29 @@ export async function getDriverById(driverId: string) {
     where: { id: driverId },
     include: {
       vehicles: true,
-      workLogs: true,
+      workLogs: {
+        select: {
+          id: true,
+          vehicleId: true,
+          driverId: true,
+          gpsStartTime: true,
+          gpsEndTime: true,
+          reportStartTime: true,
+          reportEndTime: true,
+          breakTime: true,
+          difference: true,
+          comment: true,
+          km: true,
+          date: true,
+          createdAt: true,
+          updatedAt: true,
+          vehicle: {
+            select: {
+              licensePlate: true, // <-- add this
+            },
+          },
+        },
+      },
     },
   });
 

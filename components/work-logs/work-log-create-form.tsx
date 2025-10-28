@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { createWorkLog } from "@/app/actions/workLog";
 
 export function WorkLogCreateForm({
   onSuccess,
@@ -36,7 +37,7 @@ export function WorkLogCreateForm({
   const form = useForm<WorkLogFormValues>({
     resolver: zodResolver(workLogSchema),
     defaultValues: {
-      foreman: "",
+      vehicleId: "",
       gpsStartTime: "07:30",
       gpsEndTime: "17:00",
       breakTime: "01:00",
@@ -44,18 +45,25 @@ export function WorkLogCreateForm({
       reportEndTime: "17:00",
       date: new Date(),
       comment: "",
-      driverId: "",
-      vehicleId: "",
       km: "",
     },
   });
 
-  console.log({ values: form.getValues() });
-
   async function onSubmit(values: WorkLogFormValues) {
-    console.log({ values });
+    const selectedVehicle = vehicles.find((v) => v.id === values.vehicleId);
+
+    if (!selectedVehicle) {
+      alert("Selected vehicle not found");
+      return;
+    }
+
     try {
-      /* await createVehicle(values); */
+      const data = {
+        ...values,
+        driverId: selectedVehicle.driverId,
+      };
+
+      await createWorkLog(data);
       toast.success("Work log created successfully!");
       onSuccess?.();
     } catch (err) {
@@ -91,9 +99,9 @@ export function WorkLogCreateForm({
           name="vehicleId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Fahrzeug / Fahrer</FormLabel>
+              <FormLabel>Fahrzeug</FormLabel>
               <FormControl>
-                <Select>
+                <Select onValueChange={field.onChange} value={field.value}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Wählen Sie ein Fahrzeug aus" />
                   </SelectTrigger>

@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { DataTable } from "@/components/DataTable";
+import { workLogColumns } from "@/components/work-logs/work-log-columns";
 
 export default async function DriverDetailsPage({
   params,
@@ -47,13 +49,9 @@ export default async function DriverDetailsPage({
   startOfWeek.setDate(now.getDate() - now.getDay());
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-  const weeklyDifference = driver.workLogs
-    .filter((w) => new Date(w.date) >= startOfWeek)
-    .reduce((acc, log) => acc + (log.difference ?? 0), 0);
+  const weeklyDifference = 0;
 
-  const monthlyDifference = driver.workLogs
-    .filter((w) => new Date(w.date) >= startOfMonth)
-    .reduce((acc, log) => acc + (log.difference ?? 0), 0);
+  const monthlyDifference = 0;
 
   const totalWorkLogs = driver.workLogs.length;
   const totalVehicles = driver.vehicles.length;
@@ -238,6 +236,7 @@ export default async function DriverDetailsPage({
               workLogs={driver.workLogs}
               vehicles={driver.vehicles}
             />
+            <DataTable columns={workLogColumns} data={driver.workLogs} />
           </CardContent>
         </Card>
       )}

@@ -98,7 +98,7 @@ export default async function VehicleDetailsPage({
   ];
 
   const totalWorkLogs = vehicle.workLogs.length;
-  const totalDrivers = vehicle.drivers.length;
+  const totalDrivers = vehicle.driver;
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -121,7 +121,7 @@ export default async function VehicleDetailsPage({
           <div className="flex gap-3">
             <Badge variant="secondary" className="px-3 py-1.5">
               <UserIcon className="h-3.5 w-3.5 mr-1.5" />
-              {totalDrivers} {totalDrivers === 1 ? "Driver" : "Drivers"}
+              Driver
             </Badge>
             <Badge variant="secondary" className="px-3 py-1.5">
               {totalWorkLogs} Work {totalWorkLogs === 1 ? "Log" : "Logs"}
@@ -262,31 +262,32 @@ export default async function VehicleDetailsPage({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {vehicle.drivers.length > 0 ? (
+          {vehicle.driver ? (
             <div className="space-y-3">
-              {vehicle.drivers.map((driver) => (
-                <Link key={driver.id} href={`/drivers/${driver.id}`}>
-                  <div className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent transition-colors cursor-pointer group">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                        <UserIcon className="h-5 w-5 text-primary" />
-                      </div>
-                      <div className="space-y-1">
-                        <p className="font-semibold group-hover:text-primary transition-colors">
-                          {driver.fullName}
-                        </p>
-                        {driver.hasDiscrepancy && (
-                          <div className="flex items-center gap-1.5 text-xs text-destructive">
-                            <AlertCircleIcon className="h-3 w-3" />
-                            Has Discrepancies
-                          </div>
-                        )}
-                      </div>
+              <Link
+                key={vehicle.driver.id}
+                href={`/drivers/${vehicle.driver.id}`}
+              >
+                <div className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent transition-colors cursor-pointer group">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <UserIcon className="h-5 w-5 text-primary" />
                     </div>
-                    <ChevronRightIcon className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    <div className="space-y-1">
+                      <p className="font-semibold group-hover:text-primary transition-colors">
+                        {vehicle.driver.fullName}
+                      </p>
+                      {vehicle.driver.hasDiscrepancy && (
+                        <div className="flex items-center gap-1.5 text-xs text-destructive">
+                          <AlertCircleIcon className="h-3 w-3" />
+                          Has Discrepancies
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </Link>
-              ))}
+                  <ChevronRightIcon className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </div>
+              </Link>
             </div>
           ) : (
             <div className="text-center py-8 text-muted-foreground">

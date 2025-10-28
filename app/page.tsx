@@ -25,18 +25,20 @@ export default async function Home() {
 
               <div className="bg-white border border-red-500 rounded-2xl p-4 shadow-sm flex flex-col">
                 <p className="text-gray-500 font-medium">Drivers with Issues</p>
+                <p className="text-2xl font-bold">
+                  {drivers.filter((d) => d.hasDiscrepancy).length || 0}
+                </p>
               </div>
-              {/* <VehicleCreateDialog /> */}
             </div>
 
-            {drivers.map((d) => (
+            {vehicles.map((d) => (
               <div key={d.id} className="w-auto max-w-sm">
                 <DriverCard
                   key={d.id}
-                  id={d.id}
-                  name={d.fullName}
-                  plate={d.vehicles[0]?.licensePlate || "N/A"}
-                  hasDifference={d.hasDiscrepancy}
+                  id={d.driver?.id || "N/A"}
+                  name={d.driver?.fullName || "N/A"}
+                  plate={d.licensePlate}
+                  hasDifference={d.driver?.hasDiscrepancy}
                 />
               </div>
             ))}

@@ -9,7 +9,9 @@ import { z } from "zod";
 export type VehicleFormValues = z.infer<typeof vehicleSchema>;
 
 export async function getVehicles() {
-  const vehicle = await prisma.vehicle.findMany();
+  const vehicle = await prisma.vehicle.findMany({
+    include: { driver: true, workLogs: true },
+  });
 
   return vehicle;
 }
@@ -32,7 +34,7 @@ export async function createVehicle(data: VehicleFormValues) {
       craneInspection: parsed.craneInspection
         ? new Date(parsed.craneInspection)
         : undefined,
-      mileage: parsed.mileage,
+      mileage: parsed.mileage as string,
       hasGps: parsed.hasGps,
       notes: parsed.notes,
     },
@@ -51,7 +53,7 @@ export async function getVehicleById(id: string) {
         workLogs: {
           orderBy: { date: "desc" },
         },
-        drivers: true,
+        driver: true,
       },
     });
     return vehicle;
