@@ -4,9 +4,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { createVehicle } from "@/app/actions/vehicle";
+import { Vehicle } from "@/app/generated/prisma";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -15,31 +14,46 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
 import { WorkLogFormValues, workLogSchema } from "@/lib/validators/work-log";
+import { toast } from "sonner";
+import { DatePicker } from "../date-picker";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
-export function WorkLogCreateForm({ onSuccess }: { onSuccess?: () => void }) {
+export function WorkLogCreateForm({
+  onSuccess,
+  vehicles,
+}: {
+  onSuccess?: () => void;
+  vehicles: Vehicle[];
+}) {
   const form = useForm<WorkLogFormValues>({
     resolver: zodResolver(workLogSchema),
     defaultValues: {
       foreman: "",
-      gpsStartTime: "",
-      gpsEndTime: "",
-      breakTime: 0,
-      reportStartTime: "",
-      reportEndTime: "",
-      reportBreak: 0,
-      date: "",
+      gpsStartTime: "07:30",
+      gpsEndTime: "17:00",
+      breakTime: "01:00",
+      reportStartTime: "07:30",
+      reportEndTime: "17:00",
+      date: new Date(),
       comment: "",
       driverId: "",
       vehicleId: "",
-      km: 0,
+      km: "",
     },
   });
 
+  console.log({ values: form.getValues() });
+
   async function onSubmit(values: WorkLogFormValues) {
+    console.log({ values });
     try {
       /* await createVehicle(values); */
       toast.success("Work log created successfully!");
@@ -56,43 +70,168 @@ export function WorkLogCreateForm({ onSuccess }: { onSuccess?: () => void }) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="foreman"
+          name="date"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Kennzeichen</FormLabel>
+              <FormLabel>Datum des Arbeitsprotokolls</FormLabel>
               <FormControl>
-                <Input placeholder="LIP-SF 123" {...field} />
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="Wählen Sie ein Datum aus"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/*  <FormField
+        <FormField
           control={form.control}
-          name="manufacturer"
+          name="vehicleId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Herstellerin</FormLabel>
+              <FormLabel>Fahrzeug / Fahrer</FormLabel>
               <FormControl>
-                <Input placeholder="Mercedes, Volvo..." {...field} />
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Wählen Sie ein Fahrzeug aus" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {vehicles.map((vehicle) => (
+                      <SelectItem key={vehicle.id} value={vehicle.id}>
+                        {vehicle.licensePlate}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />
 
-        {/*  <FormField
+        <div className="flex gap-4 ">
+          <FormField
+            control={form.control}
+            name="gpsStartTime"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>GPS-Startzeit</FormLabel>
+                <FormControl>
+                  <Input
+                    type="time"
+                    id="gps-start-time-picker"
+                    step="60"
+                    className="w-full"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="gpsEndTime"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>GPS-Endzeit</FormLabel>
+                <FormControl>
+                  <Input
+                    type="time"
+                    id="gps-end-time-picker"
+                    step="60"
+                    className="w-full"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="flex gap-4 ">
+          <FormField
+            control={form.control}
+            name="reportStartTime"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Tagesbericht Startzeit</FormLabel>
+                <FormControl>
+                  <Input
+                    type="time"
+                    id="report-start-time-picker"
+                    step="60"
+                    className="w-full"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="reportEndTime"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Tagesbericht Endzeit</FormLabel>
+                <FormControl>
+                  <Input
+                    type="time"
+                    id="report-end-time-picker"
+                    step="60"
+                    className="w-full"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <FormField
           control={form.control}
-          name="modelType"
+          name="breakTime"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Modelltyp</FormLabel>
+            <FormItem className="w-full">
+              <FormLabel>Pausenzeit</FormLabel>
               <FormControl>
-                <Input placeholder="Actros, FH16..." {...field} />
+                <Input id="break-time-picker" className="w-full" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />
+
+        <FormField
+          control={form.control}
+          name="km"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Kilometerstand</FormLabel>
+              <FormControl>
+                <Input
+                  /*   type="number"
+                  inputMode="numeric"
+                  min={0}
+                  step={1} */
+                  type="text" // allows commas/dots
+                  inputMode="numeric" // numeric keyboard
+                  className="w-full"
+                  placeholder="Kilometerstand"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/*   <FormField
           control={form.control}

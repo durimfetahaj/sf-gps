@@ -1,15 +1,17 @@
 import { DriverCard } from "@/components/DriverCards";
 import { getDrivers } from "./actions/drivers";
 import { WorkLogCreateDialog } from "@/components/work-logs/work-log-create-dialog";
+import { getVehicles } from "./actions/vehicle";
 
 export default async function Home() {
   const drivers = await getDrivers();
+  const vehicles = await getVehicles();
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Trips</h1>
-        {drivers?.length > 0 && <WorkLogCreateDialog />}
+        {drivers?.length > 0 && <WorkLogCreateDialog vehicles={vehicles} />}
       </div>
 
       <div className="flex flex-col gap-6">

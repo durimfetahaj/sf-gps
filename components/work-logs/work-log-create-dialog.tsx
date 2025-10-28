@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { WorkLogCreateForm } from "./work-log-create-form";
+import { Vehicle } from "@/app/generated/prisma";
 
-export function WorkLogCreateDialog() {
+export function WorkLogCreateDialog({ vehicles }: { vehicles: Vehicle[] }) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -24,8 +25,10 @@ export function WorkLogCreateDialog() {
           <DialogTitle>Neues Arbeitsprotokoll</DialogTitle>
         </DialogHeader>
 
-        {/* ✅ Pass setOpen to your form so it can close the dialog */}
-        <WorkLogCreateForm onSuccess={() => setOpen(false)} />
+        <WorkLogCreateForm
+          onSuccess={() => setOpen(false)}
+          vehicles={vehicles}
+        />
       </DialogContent>
     </Dialog>
   );

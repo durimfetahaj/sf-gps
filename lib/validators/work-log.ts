@@ -6,13 +6,24 @@ export const workLogSchema = z.object({
   foreman: z.string().min(1, "Foreman is required"),
   gpsStartTime: z.string().min(1, "GPS start time is required"), // ISO string
   gpsEndTime: z.string().min(1, "GPS end time is required"), // ISO string
-  breakTime: z.number().int().nonnegative("Break time must be >= 0"),
+  breakTime: z.string().optional(),
   reportStartTime: z.string().min(1, "Report start time is required"), // ISO string
   reportEndTime: z.string().min(1, "Report end time is required"), // ISO string
-  reportBreak: z.number().int().nonnegative("Report break must be >= 0"),
   comment: z.string().optional(),
-  km: z.number().positive("KM must be positive").optional(),
-  date: z.string().min(1, "Date is required"), // ISO string
+  km: z
+    .string()
+    .optional()
+    .refine(
+      (val) => {
+        if (!val) return true; // allow empty/optional
+        const numberValue = Number(val.replace(/[.,]/g, "")); // remove commas/dots
+        return !isNaN(numberValue) && numberValue > 0;
+      },
+      {
+        message: "KM must be a positive number",
+      }
+    ),
+  date: z.date().min(1, "Date is required"), // ISO string
 });
 
 export type WorkLogFormValues = z.infer<typeof workLogSchema>;
