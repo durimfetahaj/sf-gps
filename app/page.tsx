@@ -1,5 +1,6 @@
 import { DriverCard } from "@/components/DriverCards";
 import { getDrivers } from "./actions/drivers";
+import { WorkLogCreateDialog } from "@/components/work-logs/work-log-create-dialog";
 
 export default async function Home() {
   const drivers = await getDrivers();
@@ -8,6 +9,7 @@ export default async function Home() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Trips</h1>
+        {drivers?.length > 0 && <WorkLogCreateDialog />}
       </div>
 
       <div className="flex flex-col gap-6">
@@ -18,11 +20,11 @@ export default async function Home() {
                 <p className="text-gray-500 font-medium">Total Drivers</p>
                 <p className="text-2xl font-bold">{drivers.length || 0}</p>
               </div>
-              {/* <VehicleCreateDialog /> */}
 
               <div className="bg-white border border-red-500 rounded-2xl p-4 shadow-sm flex flex-col">
                 <p className="text-gray-500 font-medium">Drivers with Issues</p>
               </div>
+              {/* <VehicleCreateDialog /> */}
             </div>
 
             {drivers.map((d) => (
