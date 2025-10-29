@@ -34,7 +34,7 @@ export async function createVehicle(data: VehicleFormValues) {
       craneInspection: parsed.craneInspection
         ? new Date(parsed.craneInspection)
         : undefined,
-      mileage: parsed.mileage as string,
+      mileage: parsed.mileage,
       hasGps: parsed.hasGps,
       notes: parsed.notes,
     },

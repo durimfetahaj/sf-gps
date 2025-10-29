@@ -21,9 +21,24 @@ model Driver {
   @@map("drivers")
 }
 
+model VehicleEquipment {
+  id           String    @id @default(cuid())
+  vehicleId    String
+  name         String
+  type         String?
+  partNumber   String?
+  serialNumber String?
+  installedAt  DateTime?
+  removedAt    DateTime?
+  notes        String?
+  vehicle      Vehicle   @relation(fields: [vehicleId], references: [id])
+
+  @@map("vehicle_equipments")
+}
+
 model Vehicle {
-  id              String    @id @default(cuid())
-  licensePlate    String    @unique
+  id              String             @id @default(cuid())
+  licensePlate    String             @unique
   manufacturer    String?
   modelType       String?
   serialNumber    String?
@@ -32,12 +47,13 @@ model Vehicle {
   spCheck         DateTime?
   uvvCheck        DateTime?
   craneInspection DateTime?
-  mileage         String?
   hasGps          Boolean?
   notes           String?
   driverId        String?
+  mileage         Int?
   services        Service[]
-  driver          Driver?   @relation(fields: [driverId], references: [id])
+  equipments      VehicleEquipment[]
+  driver          Driver?            @relation(fields: [driverId], references: [id])
   workLogs        WorkLog[]
 
   @@map("vehicles")
@@ -61,9 +77,7 @@ model Service {
 model WorkLog {
   id              String   @id @default(cuid())
   vehicleId       String
-  difference      String?
   comment         String?
-  km              String?
   updatedAt       DateTime @updatedAt
   createdAt       DateTime @default(now())
   date            DateTime
@@ -73,6 +87,8 @@ model WorkLog {
   breakTime       String?
   reportStartTime String
   reportEndTime   String
+  difference      Int?
+  km              Int?
   driver          Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
   vehicle         Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
 
