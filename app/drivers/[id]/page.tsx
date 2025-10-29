@@ -1,6 +1,6 @@
 import { getDriverById } from "@/app/actions/drivers";
-import { notFound } from "next/navigation";
-import { WorkLogsTable } from "../components/WorkLogsTable";
+import { DataTable } from "@/components/DataTable";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -8,18 +8,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  CalendarIcon,
-  TruckIcon,
-  AlertTriangleIcon,
-  TrendingUpIcon,
-  TrendingDownIcon,
-} from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import { DataTable } from "@/components/DataTable";
 import { workLogColumns } from "@/components/work-logs/work-log-columns";
+import {
+  AlertTriangleIcon,
+  CalendarIcon,
+  TrendingDownIcon,
+  TrendingUpIcon,
+  TruckIcon,
+} from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { WorkLogsTable } from "../components/WorkLogsTable";
 
 export default async function DriverDetailsPage({
   params,
@@ -47,7 +47,6 @@ export default async function DriverDetailsPage({
   const now = new Date();
   const startOfWeek = new Date(now);
   startOfWeek.setDate(now.getDate() - now.getDay());
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
   const weeklyDifference = 0;
 

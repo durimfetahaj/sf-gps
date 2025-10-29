@@ -45,7 +45,7 @@ export function WorkLogCreateForm({
       reportEndTime: "17:00",
       date: new Date(),
       comment: "",
-      km: "",
+      km: 0,
     },
   });
 

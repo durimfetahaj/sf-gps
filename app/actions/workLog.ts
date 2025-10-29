@@ -17,18 +17,11 @@ export async function createWorkLog(data: unknown) {
       breakTime: validatedData.breakTime,
     });
 
-    let kmNumber: number | null = null;
-    if (validatedData.km) {
-      kmNumber = Number(validatedData.km.replace(/[.,]/g, ""));
-    }
-
     if (!validatedData?.driverId) {
       throw new Error("Selected vehicle has no assigned driver.");
     }
 
-    console.log(data);
-
-    const workLog = await prisma.workLog.create({
+    await prisma.workLog.create({
       data: {
         vehicleId: validatedData.vehicleId,
         driverId: validatedData.driverId,
@@ -38,7 +31,7 @@ export async function createWorkLog(data: unknown) {
         reportEndTime: validatedData.reportEndTime,
         breakTime: validatedData.breakTime ?? "00:00",
         km: validatedData.km,
-        difference, // calculated difference
+        difference,
         comment: validatedData.comment || null,
         date: new Date(validatedData.date),
       },

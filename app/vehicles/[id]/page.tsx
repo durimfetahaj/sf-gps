@@ -1,6 +1,6 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
+import { getVehicleById } from "@/app/actions/vehicle";
 import { WorkLogsTable } from "@/app/drivers/components/WorkLogsTable";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -8,23 +8,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import {
+  AlertCircleIcon,
+  CalendarClockIcon,
+  ChevronRightIcon,
+  ClipboardCheckIcon,
+  CakeIcon as CraneIcon,
+  GaugeIcon,
+  MapPinIcon,
+  ShieldCheckIcon,
   TruckIcon,
   UserIcon,
-  ClipboardCheckIcon,
-  AlertCircleIcon,
-  MapPinIcon,
-  GaugeIcon,
-  StickyNoteIcon,
-  ChevronRightIcon,
-  CalendarClockIcon,
   WrenchIcon,
-  ShieldCheckIcon,
-  CakeIcon as CraneIcon,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { getVehicleById } from "@/app/actions/vehicle";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export default async function VehicleDetailsPage({
   params,
@@ -98,7 +97,6 @@ export default async function VehicleDetailsPage({
   ];
 
   const totalWorkLogs = vehicle.workLogs.length;
-  const totalDrivers = vehicle.driver;
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -113,7 +111,7 @@ export default async function VehicleDetailsPage({
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
               <span className="text-lg">
-                {vehicle.manufacturer || "Unknown"} {vehicle.modelType || ""}
+                {vehicle.manufacturer || "Unknown"} {vehicle.model || ""}
               </span>
             </div>
           </div>
@@ -234,22 +232,6 @@ export default async function VehicleDetailsPage({
           </div>
         </CardContent>
       </Card>
-
-      {vehicle.notes && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <StickyNoteIcon className="h-5 w-5" />
-              Notes
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground whitespace-pre-wrap">
-              {vehicle.notes}
-            </p>
-          </CardContent>
-        </Card>
-      )}
 
       <Card>
         <CardHeader>

@@ -6,7 +6,7 @@ export const vehicleSchema = z.object({
   model: z.string().optional(),
   serialNumber: z.string().optional(),
   chassisNumber: z.string().optional(),
-  nextInspection: z.string().optional(), // ISO date
+  nextInspection: z.string().optional(),
   spCheck: z.string().optional(),
   uvvCheck: z.string().optional(),
   craneInspection: z.string().optional(),

@@ -1,6 +1,6 @@
 "use client";
 
-import { Driver, Prisma } from "@/app/generated/prisma";
+import { Prisma } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
 
 type EnrichedWorkLog = Prisma.WorkLogGetPayload<{
@@ -45,10 +45,5 @@ export const workLogColumns: ColumnDef<EnrichedWorkLog>[] = [
   {
     header: "Comment",
     accessorFn: (log) => log.comment || "N/A",
-  },
-
-  {
-    header: "Comment",
-    accessorFn: (log) => (log.km as string) || "N/A",
   },
 ];

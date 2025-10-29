@@ -2,7 +2,7 @@
 
 import { Prisma } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type DriverWithVehicles = Prisma.DriverGetPayload<{
   include: { vehicles: true; workLogs: true };
@@ -12,19 +12,14 @@ export const driverColumns: ColumnDef<DriverWithVehicles>[] = [
   {
     accessorKey: "fullName",
     header: "Full Name",
-    cell: ({ row }) => {
-      const router = useRouter();
-      const fullName = row.original.fullName;
-
-      return (
-        <button
-          className="text-blue-600 hover:underline hover:bg-gray-50 px-2 py-1 rounded transition-colors duration-150 cursor-pointer"
-          onClick={() => router.push(`/drivers/${row.original.id}`)}
-        >
-          {fullName || "N/A"}
-        </button>
-      );
-    },
+    cell: ({ row }) => (
+      <Link
+        className={`text-blue-600 hover:underline hover:bg-gray-50 px-2 py-1 rounded transition-colors duration-150 cursor-pointer`}
+        href={`/drivers/${row.original.id}`}
+      >
+        {row.original.fullName}
+      </Link>
+    ),
   },
   {
     accessorKey: "employmentStart",

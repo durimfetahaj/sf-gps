@@ -9,19 +9,7 @@ export const workLogSchema = z.object({
   reportStartTime: z.string().min(1, "Report start time is required"), // ISO string
   reportEndTime: z.string().min(1, "Report end time is required"), // ISO string
   comment: z.string().optional(),
-  km: z
-    .string()
-    .optional()
-    .refine(
-      (val) => {
-        if (!val) return true; // allow empty/optional
-        const numberValue = Number(val.replace(/[.,]/g, "")); // remove commas/dots
-        return !isNaN(numberValue) && numberValue > 0;
-      },
-      {
-        message: "KM must be a positive number",
-      }
-    ),
+  km: z.number().optional(),
   date: z.date().min(1, "Date is required"), // ISO string
 });
 
