@@ -23,7 +23,7 @@ export async function createVehicle(data: VehicleFormValues) {
     data: {
       licensePlate: parsed.licensePlate,
       manufacturer: parsed.manufacturer,
-      modelType: parsed.modelType,
+      model: parsed.model,
       serialNumber: parsed.serialNumber,
       chassisNumber: parsed.chassisNumber,
       nextInspection: parsed.nextInspection
@@ -36,7 +36,6 @@ export async function createVehicle(data: VehicleFormValues) {
         : undefined,
       mileage: parsed.mileage,
       hasGps: parsed.hasGps,
-      notes: parsed.notes,
     },
   });
 

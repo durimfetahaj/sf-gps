@@ -26,7 +26,7 @@ export function VehicleCreateForm({ onSuccess }: { onSuccess?: () => void }) {
     defaultValues: {
       licensePlate: "",
       manufacturer: "",
-      modelType: "",
+      model: "",
       serialNumber: "",
       chassisNumber: "",
       mileage: 0,
@@ -79,7 +79,7 @@ export function VehicleCreateForm({ onSuccess }: { onSuccess?: () => void }) {
 
         <FormField
           control={form.control}
-          name="modelType"
+          name="model"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Modelltyp</FormLabel>

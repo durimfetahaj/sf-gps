@@ -59,7 +59,7 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
     cell: defaultCell("N/A"),
   },
   {
-    accessorKey: "modelType",
+    accessorKey: "model",
     header: "Model",
     cell: defaultCell("N/A"),
   },
@@ -67,15 +67,19 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
     accessorKey: "mileage",
     header: () => <div className="text-center">Mileage (km)</div>,
     cell: (info) => {
-      const rawValue = info.getValue();
-      const value = Number(rawValue);
+      const value = info.getValue() as number | null | undefined;
 
-      if (isNaN(value) || value === 0)
+      if (!value) {
+        // Handles null, undefined, or 0
         return <div className="text-center">N/A</div>;
+      }
 
       return (
         <div className="text-center">
-          {new Intl.NumberFormat("en-US").format(value)}
+          {new Intl.NumberFormat("de-DE", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(value)}
         </div>
       );
     },

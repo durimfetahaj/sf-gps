@@ -190,7 +190,7 @@ export default async function DriverDetailsPage({
                     <div className="space-y-1">
                       <p className="font-semibold text-lg">{v.licensePlate}</p>
                       <p className="text-sm text-muted-foreground">
-                        {v.manufacturer} {v.modelType}
+                        {v.manufacturer} {v.model}
                       </p>
                     </div>
                     {v.nextInspection && (
