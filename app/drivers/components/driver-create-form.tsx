@@ -4,9 +4,10 @@ import { DriverFormValues, driverSchema } from "@/lib/validators/driver";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { createVehicle } from "@/app/actions/vehicle";
+import { createDriver } from "@/app/actions/drivers";
+import { Vehicle } from "@/app/generated/prisma";
+import { DatePicker } from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -16,10 +17,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import { createDriver } from "@/app/actions/drivers";
-import { DatePicker } from "@/components/date-picker";
 import {
   Select,
   SelectContent,
@@ -27,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Vehicle } from "@/app/generated/prisma";
+import { toast } from "sonner";
 
 export function DriverCreateForm({
   onSuccess,

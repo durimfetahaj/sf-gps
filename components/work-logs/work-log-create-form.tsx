@@ -225,15 +225,12 @@ export function WorkLogCreateForm({
               <FormLabel>Kilometerstand</FormLabel>
               <FormControl>
                 <Input
-                  /*   type="number"
-                  inputMode="numeric"
-                  min={0}
-                  step={1} */
-                  type="text" // allows commas/dots
-                  inputMode="numeric" // numeric keyboard
-                  className="w-full"
-                  placeholder="Kilometerstand"
+                  type="number"
                   {...field}
+                  placeholder="100,000"
+                  onChange={(e) =>
+                    field.onChange(e.target.value ? Number(e.target.value) : 0)
+                  }
                 />
               </FormControl>
               <FormMessage />

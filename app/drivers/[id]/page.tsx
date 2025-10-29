@@ -10,16 +10,10 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { workLogColumns } from "@/components/work-logs/work-log-columns";
-import {
-  AlertTriangleIcon,
-  CalendarIcon,
-  TrendingDownIcon,
-  TrendingUpIcon,
-  TruckIcon,
-} from "lucide-react";
+import { calculateTotalDifference } from "@/lib/helpers/workLog";
+import { AlertTriangleIcon, CalendarIcon, TruckIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { WorkLogsTable } from "../components/WorkLogsTable";
 
 export default async function DriverDetailsPage({
   params,
@@ -28,6 +22,8 @@ export default async function DriverDetailsPage({
 }) {
   const { id } = params;
   const driver = await getDriverById(id);
+
+  console.log({ driver: driver.workLogs });
 
   if (!driver) {
     notFound();
@@ -43,17 +39,24 @@ export default async function DriverDetailsPage({
     });
   };
 
-  // Calculate weekly/monthly differences
-  const now = new Date();
-  const startOfWeek = new Date(now);
-  startOfWeek.setDate(now.getDate() - now.getDay());
-
-  const weeklyDifference = 0;
-
-  const monthlyDifference = 0;
-
   const totalWorkLogs = driver.workLogs.length;
   const totalVehicles = driver.vehicles.length;
+  const weeklyDifferenceMinutes = calculateTotalDifference(
+    driver.workLogs,
+    "week"
+  ).minutes; // "01:30"
+  const weeklyDifferenceTime = calculateTotalDifference(
+    driver.workLogs,
+    "week"
+  ).time; // "01:30"
+  const monthlyDifferenceTime = calculateTotalDifference(
+    driver.workLogs,
+    "month"
+  ).time; // "01:30"
+  const monthlyDifferenceMinutes = calculateTotalDifference(
+    driver.workLogs,
+    "month"
+  ).minutes; // "01:30"
 
   return (
     <div className="container p-6 space-y-6">
@@ -102,35 +105,29 @@ export default async function DriverDetailsPage({
             <CardTitle className="flex items-center gap-2">
               <span
                 className={`text-3xl font-bold ${
-                  weeklyDifference > 0
+                  weeklyDifferenceMinutes > 0
                     ? "text-destructive"
-                    : weeklyDifference < 0
+                    : weeklyDifferenceMinutes < 0
                     ? "text-green-600"
                     : "text-muted-foreground"
                 }`}
               >
-                {weeklyDifference > 0 ? "+" : ""}
-                {weeklyDifference} min
+                {weeklyDifferenceTime} min
               </span>
-              {weeklyDifference > 0 ? (
-                <TrendingUpIcon className="h-5 w-5 text-destructive" />
-              ) : weeklyDifference < 0 ? (
-                <TrendingDownIcon className="h-5 w-5 text-green-600" />
-              ) : null}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-xs text-muted-foreground">
-              {weeklyDifference > 0
+              {weeklyDifferenceMinutes > 0
                 ? "Driver is over scheduled hours"
-                : weeklyDifference < 0
+                : weeklyDifferenceMinutes < 0
                 ? "Driver is under scheduled hours"
                 : "Driver is on schedule"}
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-chart-2">
+        <Card className="border-l-4 border-l-chart-1">
           <CardHeader className="pb-3">
             <CardDescription className="text-xs font-medium uppercase tracking-wide">
               Time Difference This Month
@@ -138,28 +135,22 @@ export default async function DriverDetailsPage({
             <CardTitle className="flex items-center gap-2">
               <span
                 className={`text-3xl font-bold ${
-                  monthlyDifference > 0
+                  monthlyDifferenceMinutes > 0
                     ? "text-destructive"
-                    : monthlyDifference < 0
-                    ? "text-green-600"
+                    : monthlyDifferenceMinutes < 0
+                    ? "text-red-600"
                     : "text-muted-foreground"
                 }`}
               >
-                {monthlyDifference > 0 ? "+" : ""}
-                {monthlyDifference} min
+                {monthlyDifferenceTime} min
               </span>
-              {monthlyDifference > 0 ? (
-                <TrendingUpIcon className="h-5 w-5 text-destructive" />
-              ) : monthlyDifference < 0 ? (
-                <TrendingDownIcon className="h-5 w-5 text-green-600" />
-              ) : null}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-xs text-muted-foreground">
-              {monthlyDifference > 0
+              {monthlyDifferenceMinutes > 0
                 ? "Driver is over scheduled hours"
-                : monthlyDifference < 0
+                : monthlyDifferenceMinutes < 0
                 ? "Driver is under scheduled hours"
                 : "Driver is on schedule"}
             </p>
@@ -231,10 +222,6 @@ export default async function DriverDetailsPage({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <WorkLogsTable
-              workLogs={driver.workLogs}
-              vehicles={driver.vehicles}
-            />
             <DataTable columns={workLogColumns} data={driver.workLogs} />
           </CardContent>
         </Card>

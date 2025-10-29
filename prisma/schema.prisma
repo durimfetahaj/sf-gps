@@ -23,18 +23,18 @@ model Driver {
 
 model Vehicle {
   id              String    @id @default(cuid())
-  manufacturer    String?
-  model           String?
   licensePlate    String    @unique
+  manufacturer    String?
   serialNumber    String?
   chassisNumber   String?
   nextInspection  DateTime?
   spCheck         DateTime?
   uvvCheck        DateTime?
   craneInspection DateTime?
-  hasGps          Boolean?
   mileage         Float?
+  hasGps          Boolean?
   driverId        String?
+  model           String?
   driver          Driver?   @relation(fields: [driverId], references: [id])
   workLogs        WorkLog[]
 
@@ -43,19 +43,19 @@ model Vehicle {
 
 model WorkLog {
   id              String   @id @default(cuid())
-  vehicleId       String
-  comment         String?
-  updatedAt       DateTime @updatedAt
-  createdAt       DateTime @default(now())
-  date            DateTime
   driverId        String
+  vehicleId       String
   gpsStartTime    String
   gpsEndTime      String
   breakTime       String?
   reportStartTime String
   reportEndTime   String
   difference      String?
-  km              Int?
+  comment         String?
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  date            DateTime
+  km              Float?
   driver          Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
   vehicle         Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
 
