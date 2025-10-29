@@ -4,6 +4,13 @@ import { WorkLogCreateDialog } from "@/components/work-logs/work-log-create-dial
 import { getVehicles } from "./actions/vehicle";
 
 export default async function Home() {
+  return (
+    <div>
+      <h1 className="text-2xl font-semibold">Trips</h1>
+      <p>No trips available.</p>
+    </div>
+  );
+
   const drivers = await getDrivers();
   const vehicles = await getVehicles();
 
