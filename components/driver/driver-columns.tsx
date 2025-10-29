@@ -3,6 +3,8 @@
 import { Prisma } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
+import { ColumnDeleteButton } from "../column-delete-btn";
+import { deleteDriver } from "@/app/actions/drivers";
 
 type DriverWithVehicles = Prisma.DriverGetPayload<{
   include: { vehicles: true; workLogs: true };
@@ -41,5 +43,11 @@ export const driverColumns: ColumnDef<DriverWithVehicles>[] = [
 
       return vehicles.map((v) => v.licensePlate).join(", ");
     },
+  },
+  {
+    header: "Actions",
+    cell: ({ row }) => (
+      <ColumnDeleteButton id={row.original.id} deleteAction={deleteDriver} />
+    ),
   },
 ];

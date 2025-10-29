@@ -1,7 +1,7 @@
-// src/app/actions/drivers/getDrivers.ts
 "use server";
 
 import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function getDrivers() {
   const drivers = await prisma.driver.findMany({
@@ -47,4 +47,43 @@ export async function getDriverById(driverId: string) {
   }
 
   return driver;
+}
+
+export async function createDriver(data: {
+  fullName: string;
+  vehicleId?: string;
+  employmentStart?: Date;
+}) {
+  const newDriver = await prisma.driver.create({
+    data: {
+      fullName: data.fullName,
+      employmentStart: data.employmentStart,
+    },
+  });
+
+  if (data.vehicleId) {
+    await prisma.vehicle.update({
+      where: { id: data.vehicleId },
+      data: { driverId: newDriver.id },
+    });
+  }
+
+  revalidatePath("/drivers");
+
+  return newDriver;
+}
+
+export async function deleteDriver(id: string) {
+  // check if driver exists
+  const driver = await getDriverById(id);
+
+  if (!driver) {
+    throw new Error("Driver not found");
+  }
+
+  await prisma.driver.delete({
+    where: { id },
+  });
+
+  revalidatePath("/drivers");
 }
