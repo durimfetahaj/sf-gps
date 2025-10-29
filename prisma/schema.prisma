@@ -21,26 +21,11 @@ model Driver {
   @@map("drivers")
 }
 
-model VehicleEquipment {
-  id           String    @id @default(cuid())
-  vehicleId    String
-  name         String
-  type         String?
-  partNumber   String?
-  serialNumber String?
-  installedAt  DateTime?
-  removedAt    DateTime?
-  notes        String?
-  vehicle      Vehicle   @relation(fields: [vehicleId], references: [id])
-
-  @@map("vehicle_equipments")
-}
-
 model Vehicle {
-  id              String             @id @default(cuid())
-  licensePlate    String             @unique
+  id              String    @id @default(cuid())
   manufacturer    String?
-  modelType       String?
+  model           String?
+  licensePlate    String    @unique
   serialNumber    String?
   chassisNumber   String?
   nextInspection  DateTime?
@@ -48,30 +33,12 @@ model Vehicle {
   uvvCheck        DateTime?
   craneInspection DateTime?
   hasGps          Boolean?
-  notes           String?
+  mileage         Float?
   driverId        String?
-  mileage         Int?
-  services        Service[]
-  equipments      VehicleEquipment[]
-  driver          Driver?            @relation(fields: [driverId], references: [id])
+  driver          Driver?   @relation(fields: [driverId], references: [id])
   workLogs        WorkLog[]
 
   @@map("vehicles")
-}
-
-model Service {
-  id          String   @id @default(cuid())
-  vehicleId   String
-  date        DateTime
-  type        String
-  kmStand     Int?
-  ticketNr    String?
-  description String?
-  quantity    Int?
-  comment     String?
-  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
-
-  @@map("services")
 }
 
 model WorkLog {
