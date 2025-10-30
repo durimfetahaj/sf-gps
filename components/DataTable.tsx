@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -34,37 +34,29 @@ export function DataTable<TData, TValue>({
   tableClassName = "",
   noResultsText = "No results.",
 }: DataTableProps<TData, TValue>) {
-  const [globalFilter, setGlobalFilter] = React.useState("");
+  const [globalFilter, setGlobalFilter] = useState<any>([]);
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    state: { globalFilter },
-    onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: (row, filterValue) => {
-      return row
-        .getVisibleCells()
-        .some((cell) =>
-          String(cell.getValue())
-            .toLowerCase()
-            .includes(String(filterValue).toLowerCase())
-        );
+    state: {
+      globalFilter,
     },
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: "auto",
   });
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Global Search */}
       <Input
         placeholder={searchPlaceholder}
         value={globalFilter}
-        onChange={(e) => setGlobalFilter(e.target.value)}
+        onChange={(e) => table.setGlobalFilter(String(e.target.value))}
         className="max-w-sm"
       />
 
-      {/* Table */}
       <div className={`overflow-hidden rounded-md border ${tableClassName}`}>
         <Table>
           <TableHeader>
