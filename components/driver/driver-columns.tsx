@@ -13,7 +13,7 @@ type DriverWithVehicles = Prisma.DriverGetPayload<{
 export const driverColumns: ColumnDef<DriverWithVehicles>[] = [
   {
     accessorKey: "fullName",
-    header: "Full Name",
+    header: "Vollständiger Name",
     cell: ({ row }) => (
       <Link
         className={`text-blue-600 hover:underline hover:bg-gray-50 px-2 py-1 rounded transition-colors duration-150 cursor-pointer`}
@@ -24,25 +24,21 @@ export const driverColumns: ColumnDef<DriverWithVehicles>[] = [
     ),
   },
   {
-    accessorKey: "employmentStart",
-    header: "Employment Start",
-    cell: ({ getValue }) => {
-      const date = getValue() as Date | string | null;
-      if (!date) return "—";
-
-      const d = new Date(date);
-      return d.toLocaleDateString("en-US");
-    },
+    accessorFn: (row) =>
+      row.employmentStart
+        ? new Date(row.employmentStart).toLocaleDateString("en-US")
+        : "—",
+    id: "employmentStart",
+    header: "Beschäftigungsbeginn",
+    cell: ({ getValue }) => getValue(), // already formatted string
   },
 
   {
-    header: "Vehicles",
-    cell: ({ row }) => {
-      const vehicles = row.original.vehicles;
-      if (!vehicles || vehicles.length === 0) return "—";
-
-      return vehicles.map((v) => v.licensePlate).join(", ");
-    },
+    accessorFn: (row) =>
+      row.vehicles?.map((v) => v.licensePlate).join(", ") ?? "—",
+    id: "vehicles",
+    header: "Kennzeichen",
+    cell: ({ getValue }) => getValue(), // no need to re-map, already formatted
   },
   {
     header: "Actions",

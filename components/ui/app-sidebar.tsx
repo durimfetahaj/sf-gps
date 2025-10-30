@@ -24,7 +24,7 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <h1 className="text-lg font-semibold px-2">SF-Bau</h1>
+        <h1 className="text-lg font-semibold px-2">SF-Bau Manager</h1>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

@@ -16,7 +16,7 @@ const defaultCell =
 export const vehicleColumns: ColumnDef<Vehicle>[] = [
   {
     accessorKey: "licensePlate",
-    header: "License Plate",
+    header: "Kennzeichen",
     cell: ({ row }) => (
       <Link
         className={`text-blue-600 hover:underline hover:bg-gray-50 px-2 py-1 rounded transition-colors duration-150 cursor-pointer`}
@@ -28,7 +28,7 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
   },
   {
     accessorKey: "hasGps",
-    header: "Has GPS",
+    header: "Hat GPS",
     cell: ({ row }) => {
       const hasGps = row.original.hasGps;
       return hasGps ? (
@@ -50,17 +50,17 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
   },
   {
     accessorKey: "manufacturer",
-    header: "Manufacturer",
+    header: "Hersteller",
     cell: defaultCell("N/A"),
   },
   {
     accessorKey: "model",
-    header: "Model",
+    header: "Modell",
     cell: defaultCell("N/A"),
   },
   {
     accessorKey: "mileage",
-    header: () => <div className="text-center">Mileage (km)</div>,
+    header: () => <div className="text-center">Kilometerstand (km)</div>,
     cell: (info) => {
       const value = info.getValue() as number | null | undefined;
 

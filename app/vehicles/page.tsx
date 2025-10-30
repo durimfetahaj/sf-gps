@@ -8,17 +8,17 @@ export default async function VehiclesPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold">Vehicles</h1>
+        <h1 className="text-2xl font-semibold">Fahrzeuge</h1>
         <VehicleCreateDialog />
       </div>
       {vehicles.length > 0 ? (
         <DataTable
           data={vehicles}
           columns={vehicleColumns}
-          searchPlaceholder="Search vehicles..."
+          searchPlaceholder="Fahrzeuge suchen..."
         />
       ) : (
-        <p>No vehicles available.</p>
+        <p>Keine Fahrzeuge verfügbar.</p>
       )}
     </div>
   );

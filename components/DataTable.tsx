@@ -34,7 +34,7 @@ export function DataTable<TData, TValue>({
   tableClassName = "",
   noResultsText = "No results.",
 }: DataTableProps<TData, TValue>) {
-  const [globalFilter, setGlobalFilter] = useState<any>([]);
+  const [globalFilter, setGlobalFilter] = useState<string>("");
 
   const table = useReactTable({
     data,

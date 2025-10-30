@@ -17,10 +17,10 @@ export default async function Drivers() {
         <DataTable
           data={drivers}
           columns={driverColumns}
-          searchPlaceholder="Search vehicles..."
+          searchPlaceholder="Treiber suchen..."
         />
       ) : (
-        <p>No drivers available.</p>
+        <p>Keine Treiber verfügbar.</p>
       )}
     </div>
   );

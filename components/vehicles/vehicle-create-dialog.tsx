@@ -16,7 +16,7 @@ export function VehicleCreateDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add Vehicle</Button>
+        <Button>Fahrzeug hinzufügen</Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">
