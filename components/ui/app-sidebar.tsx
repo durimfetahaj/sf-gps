@@ -15,9 +15,9 @@ import { Car, Map, Users } from "lucide-react";
 import Link from "next/link";
 
 const items = [
-  { title: "Trips", href: "/", icon: Map },
-  { title: "Drivers", href: "/drivers", icon: Users },
-  { title: "Vehicles", href: "/vehicles", icon: Car },
+  { title: "Arbeitsprotokolle", href: "/", icon: Map },
+  { title: "Treiber", href: "/drivers", icon: Users },
+  { title: "Fahrzeuge", href: "/vehicles", icon: Car },
 ];
 
 export function AppSidebar() {

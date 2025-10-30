@@ -30,11 +30,8 @@ export function DriverCard({
         <CardTitle className="text-xl font-semibold">{name}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-gray-500">Truck Plate:</p>
+        <p className="text-sm text-gray-500">Kennzeichen</p>
         <p className="text-base font-medium">{plate}</p>
-        {hasDifference && (
-          <p className="mt-2 font-semibold text-red-600">Has discrepancies</p>
-        )}
       </CardContent>
     </Card>
   );

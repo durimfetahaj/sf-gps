@@ -17,7 +17,7 @@ export function WorkLogCreateDialog({ vehicles }: { vehicles: Vehicle[] }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add Work Log</Button>
+        <Button>Arbeitsprotokoll hinzufügen</Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">
