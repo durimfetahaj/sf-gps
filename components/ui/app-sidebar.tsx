@@ -11,16 +11,38 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Car, Map, Users } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import { Car, Map, Users, Box } from "lucide-react"; // Box icon for Inventory
 import Link from "next/link";
 
-const items = [
-  { title: "Arbeitsprotokolle", href: "/", icon: Map },
-  { title: "Treiber", href: "/drivers", icon: Users },
-  { title: "Fahrzeuge", href: "/vehicles", icon: Car },
+// All possible sidebar items with roles
+const allItems = [
+  { title: "Arbeitsprotokolle", href: "/", icon: Map, roles: ["admin"] },
+  { title: "Treiber", href: "/drivers", icon: Users, roles: ["admin"] },
+  {
+    title: "Fahrzeuge",
+    href: "/vehicles",
+    icon: Car,
+    roles: ["admin", "vehicle"],
+  },
+  {
+    title: "Inventory",
+    href: "/inventory",
+    icon: Box,
+    roles: ["admin", "inventory"],
+  },
 ];
 
 export function AppSidebar() {
+  const { user } = useUser();
+  const role = user?.publicMetadata?.role as string | undefined;
+
+  // Filter items based on role
+  const visibleItems = allItems.filter((item) => {
+    if (role === "admin") return true; // Admin sees everything
+    return role ? item.roles.includes(role) : false;
+  });
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -30,7 +52,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {visibleItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton asChild>
                     <Link href={item.href} className="flex items-center gap-2">
@@ -44,7 +66,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>{/*   <SidebarTrigger /> */}</SidebarFooter>
+      <SidebarFooter />
     </Sidebar>
   );
 }
