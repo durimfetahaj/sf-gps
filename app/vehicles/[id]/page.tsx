@@ -1,5 +1,4 @@
 import { getVehicleById } from "@/app/actions/vehicle";
-import { WorkLogsTable } from "@/app/drivers/components/WorkLogsTable";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -9,9 +8,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import {
   AlertCircleIcon,
-  CalendarClockIcon,
   ChevronRightIcon,
   ClipboardCheckIcon,
   CakeIcon as CraneIcon,
@@ -37,50 +36,6 @@ export default async function VehicleDetailsPage({
     notFound();
   }
 
-  const formatDate = (date: string | Date | null | undefined) => {
-    if (!date) return "N/A";
-    const d = typeof date === "string" ? new Date(date) : date;
-    return d.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
-  const getInspectionStatus = (date: string | Date | null | undefined) => {
-    if (!date)
-      return {
-        status: "unknown",
-        label: "Not Scheduled",
-        variant: "secondary" as const,
-      };
-    const d = typeof date === "string" ? new Date(date) : date;
-    const now = new Date();
-    const daysUntil = Math.ceil(
-      (d.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
-    );
-
-    if (daysUntil < 0) {
-      return {
-        status: "overdue",
-        label: "Overdue",
-        variant: "destructive" as const,
-      };
-    } else if (daysUntil <= 30) {
-      return {
-        status: "upcoming",
-        label: "Due Soon",
-        variant: "default" as const,
-      };
-    } else {
-      return {
-        status: "scheduled",
-        label: "Scheduled",
-        variant: "secondary" as const,
-      };
-    }
-  };
-
   const inspections = [
     {
       name: "Next Inspection",
@@ -95,8 +50,6 @@ export default async function VehicleDetailsPage({
       icon: CraneIcon,
     },
   ];
-
-  const totalWorkLogs = vehicle.workLogs.length;
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -117,13 +70,20 @@ export default async function VehicleDetailsPage({
           </div>
 
           <div className="flex gap-3">
-            <Badge variant="secondary" className="px-3 py-1.5">
-              <UserIcon className="h-3.5 w-3.5 mr-1.5" />
-              Driver
-            </Badge>
-            <Badge variant="secondary" className="px-3 py-1.5">
-              {totalWorkLogs} Work {totalWorkLogs === 1 ? "Log" : "Logs"}
-            </Badge>
+            <div className="flex items-center gap-3">
+              <Link
+                href={`/drivers/${vehicle.driver?.id}`}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-md border bg-card hover:bg-accent/50 transition-colors group"
+              >
+                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <UserIcon className="h-4 w-4 text-primary" />
+                </div>
+                <span className="font-medium group-hover:text-primary transition-colors">
+                  {vehicle.driver?.fullName}
+                </span>
+              </Link>
+            </div>
+
             {vehicle.hasGps && (
               <Badge variant="default" className="px-3 py-1.5 bg-green-600">
                 <MapPinIcon className="h-3.5 w-3.5 mr-1.5" />
@@ -136,19 +96,26 @@ export default async function VehicleDetailsPage({
         <Separator />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardDescription className="text-xs font-medium uppercase tracking-wide">
-              Serial Number
-            </CardDescription>
-            <CardTitle className="text-lg font-mono">
-              {vehicle.serialNumber || "N/A"}
-            </CardTitle>
-          </CardHeader>
-        </Card>
+      <div
+        className={cn(
+          "grid grid-cols-1 md:grid-cols-2 gap-4",
+          vehicle.serialNumber ? "lg:grid-cols-3" : "lg:grid-cols-2"
+        )}
+      >
+        {vehicle.serialNumber && (
+          <Card>
+            <CardHeader className="pb-3">
+              <CardDescription className="text-xs font-medium uppercase tracking-wide">
+                Serial Number
+              </CardDescription>
+              <CardTitle className="text-lg font-mono">
+                {vehicle.serialNumber || "N/A"}
+              </CardTitle>
+            </CardHeader>
+          </Card>
+        )}
 
-        <Card>
+        <Card className="shadow-none">
           <CardHeader className="pb-3">
             <CardDescription className="text-xs font-medium uppercase tracking-wide">
               Chassis Number
@@ -159,7 +126,7 @@ export default async function VehicleDetailsPage({
           </CardHeader>
         </Card>
 
-        <Card>
+        <Card className="shadow-none">
           <CardHeader className="pb-3">
             <CardDescription className="text-xs font-medium uppercase tracking-wide flex items-center gap-1.5">
               <GaugeIcon className="h-3.5 w-3.5" />
@@ -172,29 +139,9 @@ export default async function VehicleDetailsPage({
             </CardTitle>
           </CardHeader>
         </Card>
-
-        <Card>
-          <CardHeader className="pb-3">
-            <CardDescription className="text-xs font-medium uppercase tracking-wide flex items-center gap-1.5">
-              <MapPinIcon className="h-3.5 w-3.5" />
-              GPS Status
-            </CardDescription>
-            <CardTitle className="text-lg">
-              {vehicle.hasGps === true ? (
-                <Badge variant="default" className="bg-green-600">
-                  Active
-                </Badge>
-              ) : vehicle.hasGps === false ? (
-                <Badge variant="secondary">Inactive</Badge>
-              ) : (
-                <span className="text-muted-foreground text-base">Unknown</span>
-              )}
-            </CardTitle>
-          </CardHeader>
-        </Card>
       </div>
 
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <CalendarClockIcon className="h-5 w-5" />
@@ -231,66 +178,7 @@ export default async function VehicleDetailsPage({
             })}
           </div>
         </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <UserIcon className="h-5 w-5" />
-            Assigned Drivers
-          </CardTitle>
-          <CardDescription>
-            Drivers currently assigned to this vehicle
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {vehicle.driver ? (
-            <div className="space-y-3">
-              <Link
-                key={vehicle.driver.id}
-                href={`/drivers/${vehicle.driver.id}`}
-              >
-                <div className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent transition-colors cursor-pointer group">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <UserIcon className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="space-y-1">
-                      <p className="font-semibold group-hover:text-primary transition-colors">
-                        {vehicle.driver.fullName}
-                      </p>
-                      {vehicle.driver.hasDiscrepancy && (
-                        <div className="flex items-center gap-1.5 text-xs text-destructive">
-                          <AlertCircleIcon className="h-3 w-3" />
-                          Has Discrepancies
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <ChevronRightIcon className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                </div>
-              </Link>
-            </div>
-          ) : (
-            <div className="text-center py-8 text-muted-foreground">
-              <UserIcon className="h-12 w-12 mx-auto mb-3 opacity-20" />
-              <p>No drivers assigned to this vehicle</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Work Logs</CardTitle>
-          <CardDescription>
-            Complete history of work logs for this vehicle
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <WorkLogsTable workLogs={vehicle.workLogs} vehicles={[vehicle]} />
-        </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 }

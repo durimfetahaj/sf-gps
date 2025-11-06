@@ -93,136 +93,37 @@ export default async function DriverDetailsPage({
         <Separator />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="border-l-4 border-l-chart-1">
-          <CardHeader className="pb-3">
-            <CardDescription className="text-xs font-medium uppercase tracking-wide">
-              Zeitverschiebung diese Woche
-            </CardDescription>
-            <CardTitle className="flex items-center gap-2">
-              <span
-                className={`text-3xl font-bold ${
-                  weeklyDifferenceMinutes > 0
-                    ? "text-destructive"
-                    : weeklyDifferenceMinutes < 0
-                    ? "text-green-600"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {weeklyDifferenceTime} min
-              </span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-xs text-muted-foreground">
-              {weeklyDifferenceMinutes > 0
-                ? "Driver is over scheduled hours"
-                : weeklyDifferenceMinutes < 0
-                ? "Driver is under scheduled hours"
-                : "Driver is on schedule"}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-l-4 border-l-chart-1">
-          <CardHeader className="pb-3">
-            <CardDescription className="text-xs font-medium uppercase tracking-wide">
-              Zeitunterschied in diesem Monat
-            </CardDescription>
-            <CardTitle className="flex items-center gap-2">
-              <span
-                className={`text-3xl font-bold ${
-                  monthlyDifferenceMinutes > 0
-                    ? "text-destructive"
-                    : monthlyDifferenceMinutes < 0
-                    ? "text-red-600"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {monthlyDifferenceTime} min
-              </span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-xs text-muted-foreground">
-              {monthlyDifferenceMinutes > 0
-                ? "Driver is over scheduled hours"
-                : monthlyDifferenceMinutes < 0
-                ? "Driver is under scheduled hours"
-                : "Driver is on schedule"}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TruckIcon className="h-5 w-5" />
-            Zugewiesene Fahrzeuge
-          </CardTitle>
-          <CardDescription>
-            Fahrzeuge, die diesem Fahrer derzeit zugewiesen sind
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {driver.vehicles.length > 0 ? (
-            <div className="space-y-3">
-              {driver.vehicles.map((v) => (
-                <Link key={v.id} href={`/vehicles/${v.id}`}>
-                  <div
-                    key={v.id}
-                    className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors mb-4"
-                  >
-                    <div className="space-y-1">
-                      <p className="font-semibold text-lg">{v.licensePlate}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {v.manufacturer} {v.model}
-                      </p>
-                    </div>
-                    {v.nextInspection && (
-                      <div className="text-right">
-                        <p className="text-xs text-muted-foreground mb-1">
-                          Nächste Inspektion
-                        </p>
-                        <Badge variant="outline" className="font-mono">
-                          {new Date(v.nextInspection).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            }
-                          )}
-                        </Badge>
-                      </div>
-                    )}
+      <>
+        <h2 className="text-lg mb-3">Zeitverschiebung diese Woche</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+          {driver.vehicles.map((v) => (
+            <Link key={v.id} href={`/vehicles/${v.id}`}>
+              <div className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
+                <div className="space-y-1">
+                  <p className="font-semibold text-lg">{v.licensePlate}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {v.manufacturer} {v.model}
+                  </p>
+                </div>
+                {v.nextInspection && (
+                  <div className="text-right">
+                    <p className="text-xs text-muted-foreground mb-1">
+                      Nächste Inspektion
+                    </p>
+                    <Badge variant="outline" className="font-mono">
+                      {new Date(v.nextInspection).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </Badge>
                   </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8 text-muted-foreground">
-              <TruckIcon className="h-12 w-12 mx-auto mb-3 opacity-20" />
-              <p>Diesem Fahrer sind keine Fahrzeuge zugewiesen.</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {driver.workLogs.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Work Logs</CardTitle>
-            <CardDescription>
-              Complete history of work logs and time tracking
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <DataTable columns={workLogColumns} data={driver.workLogs} />
-          </CardContent>
-        </Card>
-      )}
+                )}
+              </div>
+            </Link>
+          ))}
+        </div>
+      </>
     </div>
   );
 }

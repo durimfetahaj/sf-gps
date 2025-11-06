@@ -17,7 +17,6 @@ import Link from "next/link";
 
 // All possible sidebar items with roles
 const allItems = [
-  { title: "Arbeitsprotokolle", href: "/", icon: Map, roles: ["admin"] },
   { title: "Treiber", href: "/drivers", icon: Users, roles: ["admin"] },
   {
     title: "Fahrzeuge",
