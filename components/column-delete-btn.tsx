@@ -47,16 +47,16 @@ export function ColumnDeleteButton({
         className={className}
         onClick={() => setOpen(true)}
       >
-        Delete
+        Löschen
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Are you sure?</DialogTitle>
+            <DialogTitle>Bist du sicher?</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. Do you really want to delete this
-              driver?
+              Diese Aktion kann nicht rückgängig gemacht werden. Möchten Sie
+              diesen Treiber wirklich löschen?
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -65,14 +65,14 @@ export function ColumnDeleteButton({
               onClick={() => setOpen(false)}
               disabled={loading}
             >
-              Cancel
+              Stornieren
             </Button>
             <Button
               variant="destructive"
               onClick={handleDelete}
               disabled={loading}
             >
-              {loading ? "Deleting..." : "Delete"}
+              {loading ? "Löschen..." : "Löschen"}
             </Button>
           </DialogFooter>
         </DialogContent>

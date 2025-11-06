@@ -41,7 +41,7 @@ export const driverColumns: ColumnDef<DriverWithVehicles>[] = [
     cell: ({ getValue }) => getValue(), // no need to re-map, already formatted
   },
   {
-    header: "Actions",
+    header: "Aktionen",
     cell: ({ row }) => (
       <ColumnDeleteButton id={row.original.id} deleteAction={deleteDriver} />
     ),

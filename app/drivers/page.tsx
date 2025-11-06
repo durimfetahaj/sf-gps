@@ -10,7 +10,7 @@ export default async function Drivers() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold">Drivers</h1>
+        <h1 className="text-2xl font-semibold">Treiber</h1>
         <DriverCreateDialog vehicles={vehicles} />
       </div>
       {drivers.length > 0 ? (

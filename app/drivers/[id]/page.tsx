@@ -70,14 +70,14 @@ export default async function DriverDetailsPage({
               {driver.hasDiscrepancy && (
                 <Badge variant="destructive" className="gap-1.5">
                   <AlertTriangleIcon className="h-3.5 w-3.5" />
-                  Has Discrepancies
+                  Weist Unstimmigkeiten auf
                 </Badge>
               )}
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
               <CalendarIcon className="h-4 w-4" />
               <span className="text-sm">
-                Employment Start: {formatDate(driver?.employmentStart)}
+                Beschäftigungsbeginn: {formatDate(driver?.employmentStart)}
               </span>
             </div>
           </div>
@@ -85,10 +85,7 @@ export default async function DriverDetailsPage({
           <div className="flex gap-3">
             <Badge variant="secondary" className="px-3 py-1.5">
               <TruckIcon className="h-3.5 w-3.5 mr-1.5" />
-              {totalVehicles} {totalVehicles === 1 ? "Vehicle" : "Vehicles"}
-            </Badge>
-            <Badge variant="secondary" className="px-3 py-1.5">
-              {totalWorkLogs} Work {totalWorkLogs === 1 ? "Log" : "Logs"}
+              {totalVehicles} {totalVehicles === 1 ? "Fahrzeug" : "Fahrzeuge"}
             </Badge>
           </div>
         </div>
@@ -100,7 +97,7 @@ export default async function DriverDetailsPage({
         <Card className="border-l-4 border-l-chart-1">
           <CardHeader className="pb-3">
             <CardDescription className="text-xs font-medium uppercase tracking-wide">
-              Time Difference This Week
+              Zeitverschiebung diese Woche
             </CardDescription>
             <CardTitle className="flex items-center gap-2">
               <span
@@ -130,7 +127,7 @@ export default async function DriverDetailsPage({
         <Card className="border-l-4 border-l-chart-1">
           <CardHeader className="pb-3">
             <CardDescription className="text-xs font-medium uppercase tracking-wide">
-              Time Difference This Month
+              Zeitunterschied in diesem Monat
             </CardDescription>
             <CardTitle className="flex items-center gap-2">
               <span
@@ -162,10 +159,10 @@ export default async function DriverDetailsPage({
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TruckIcon className="h-5 w-5" />
-            Assigned Vehicles
+            Zugewiesene Fahrzeuge
           </CardTitle>
           <CardDescription>
-            Vehicles currently assigned to this driver
+            Fahrzeuge, die diesem Fahrer derzeit zugewiesen sind
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -186,7 +183,7 @@ export default async function DriverDetailsPage({
                     {v.nextInspection && (
                       <div className="text-right">
                         <p className="text-xs text-muted-foreground mb-1">
-                          Next Inspection
+                          Nächste Inspektion
                         </p>
                         <Badge variant="outline" className="font-mono">
                           {new Date(v.nextInspection).toLocaleDateString(
@@ -207,7 +204,7 @@ export default async function DriverDetailsPage({
           ) : (
             <div className="text-center py-8 text-muted-foreground">
               <TruckIcon className="h-12 w-12 mx-auto mb-3 opacity-20" />
-              <p>No vehicles assigned to this driver</p>
+              <p>Diesem Fahrer sind keine Fahrzeuge zugewiesen.</p>
             </div>
           )}
         </CardContent>

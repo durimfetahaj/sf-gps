@@ -17,7 +17,7 @@ export function DriverCreateDialog({ vehicles }: { vehicles: Vehicle[] }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Add Driver</Button>
+        <Button>Treiber hinzufügen</Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">
