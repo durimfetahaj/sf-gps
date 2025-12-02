@@ -1,5 +1,3 @@
-import { VehicleCreateDialog } from "@/components/vehicles/vehicle-create-dialog";
-
 export default async function WorkersPage() {
   /*   const vehicles = await getVehicles(); */
   return (

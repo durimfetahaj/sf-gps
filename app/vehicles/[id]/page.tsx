@@ -2,7 +2,6 @@ import { getVehicleById } from "@/app/actions/vehicle";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -10,8 +9,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import {
-  AlertCircleIcon,
-  ChevronRightIcon,
   ClipboardCheckIcon,
   CakeIcon as CraneIcon,
   GaugeIcon,

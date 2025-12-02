@@ -1,15 +1,6 @@
 import { getDriverById } from "@/app/actions/drivers";
-import { DataTable } from "@/components/DataTable";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { workLogColumns } from "@/components/work-logs/work-log-columns";
 import { calculateTotalDifference } from "@/lib/helpers/workLog";
 import { AlertTriangleIcon, CalendarIcon, TruckIcon } from "lucide-react";
 import Link from "next/link";

@@ -13,15 +13,12 @@ import {
 } from "@/components/ui/sidebar";
 import { useUser } from "@clerk/nextjs";
 import {
-  Car,
-  Map,
-  Users,
-  Box,
-  Truck,
-  Package,
-  DollarSign,
   ClipboardList,
+  DollarSign,
   LayoutDashboard,
+  Package,
+  Truck,
+  Users,
 } from "lucide-react"; // Box icon for Inventory
 import Link from "next/link";
 
