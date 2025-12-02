@@ -1,10 +1,10 @@
 "use client";
 
-import { workerSchema, WorkerFormValues } from "@/lib/validators/worker";
+import { WorkerFormValues, workerSchema } from "@/lib/validators/worker";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { createDriver } from "@/app/actions/drivers";
+import { createWorker } from "@/app/actions/workers";
 import { Vehicle } from "@/app/generated/prisma";
 import { DatePicker } from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
@@ -17,15 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
-import { createWorker } from "@/app/actions/workers";
 
 export function WorkerCreateForm({
   onSuccess,
