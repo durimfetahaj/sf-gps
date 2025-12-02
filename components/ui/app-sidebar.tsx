@@ -12,23 +12,40 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useUser } from "@clerk/nextjs";
-import { Car, Map, Users, Box } from "lucide-react"; // Box icon for Inventory
+import {
+  Car,
+  Map,
+  Users,
+  Box,
+  Truck,
+  Package,
+  DollarSign,
+  ClipboardList,
+} from "lucide-react"; // Box icon for Inventory
 import Link from "next/link";
 
 // All possible sidebar items with roles
 const allItems = [
-  { title: "Treiber", href: "/drivers", icon: Users, roles: ["admin"] },
+  { href: "/drivers", label: "Treiber", icon: Users, roles: ["admin"] },
+  { href: "/workers", label: "Workers", icon: Users, roles: ["admin"] },
   {
-    title: "Fahrzeuge",
     href: "/vehicles",
-    icon: Car,
+    label: "Vehicles",
+    icon: Truck,
     roles: ["admin", "vehicle"],
   },
   {
-    title: "Inventory",
     href: "/inventory",
-    icon: Box,
+    label: "Inventory",
+    icon: Package,
     roles: ["admin", "inventory"],
+  },
+  { href: "/wages", label: "Wages", icon: DollarSign, roles: ["admin"] },
+  {
+    href: "/assignments",
+    label: "Assignments",
+    icon: ClipboardList,
+    roles: ["admin"],
   },
 ];
 
@@ -56,7 +73,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <Link href={item.href} className="flex items-center gap-2">
                       <item.icon className="w-4 h-4" />
-                      {item.title}
+                      {item.label}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
