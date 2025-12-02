@@ -21,11 +21,13 @@ import {
   Package,
   DollarSign,
   ClipboardList,
+  LayoutDashboard,
 } from "lucide-react"; // Box icon for Inventory
 import Link from "next/link";
 
 // All possible sidebar items with roles
 const allItems = [
+  { href: "/", label: "Dashboard", icon: LayoutDashboard, roles: ["admin"] },
   { href: "/drivers", label: "Treiber", icon: Users, roles: ["admin"] },
   { href: "/workers", label: "Workers", icon: Users, roles: ["admin"] },
   {
