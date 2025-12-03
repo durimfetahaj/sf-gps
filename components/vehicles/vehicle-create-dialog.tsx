@@ -1,5 +1,6 @@
 "use client";
 
+import { InventoryCreateForm } from "@/app/inventory/components/inventory-create-form";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,7 +10,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { VehicleCreateForm } from "./vehicle-create-form";
 
 export function VehicleCreateDialog() {
   const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ export function VehicleCreateDialog() {
         </DialogHeader>
 
         {/* ✅ Pass setOpen to your form so it can close the dialog */}
-        <VehicleCreateForm onSuccess={() => setOpen(false)} />
+        <InventoryCreateForm onSuccess={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );

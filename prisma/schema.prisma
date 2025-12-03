@@ -62,9 +62,13 @@ model AssignmentItem {
 model InventoryItem {
   id        String   @id @default(cuid())
   name      String
-  sku       String   @unique
+  /**
+   * sku       String   @unique
+   */
   quantity  Int
-  type      String
+  /**
+   * type      String
+   */
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
