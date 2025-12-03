@@ -3,8 +3,8 @@ import { z } from "zod";
 // Schema for a single assigned item
 export const assignmentSchema = z
   .object({
-    workerId: z.string().nullable(),
-    vehicleId: z.string().nullable(),
+    workerId: z.string().optional(),
+    vehicleId: z.string().optional(),
     items: z
       .array(
         z.object({

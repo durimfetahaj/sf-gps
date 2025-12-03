@@ -12,6 +12,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Box,
+  Check,
+  ChevronsUpDown,
+  Package,
+  Users,
+  Users2,
+} from "lucide-react";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -34,6 +52,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { cn } from "@/lib/utils";
+import { MultiSelectWithQuantity } from "./multi-select-with-quantity";
 
 export function AssignmentsCreateForm({
   onSuccess,
@@ -48,43 +81,19 @@ export function AssignmentsCreateForm({
   workers: Worker[];
   inventory: InventoryItem[];
 }) {
-  const [mode, setMode] = useState<"worker" | "vehicle">("worker");
-  const [vehicleChoice, setVehicleChoice] = useState<
-    "worker" | "inventory" | null
-  >(null);
-  const [selectedItems, setSelectedItems] = useState<
-    Record<string, { quantity: number; assignedTo: "worker" | "vehicle" }>
-  >({});
+  const [selectedType, setSelectedType] = useState<"worker" | "vehicle">(
+    "worker"
+  );
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
 
   const form = useForm<AssignmentValues>({
     resolver: zodResolver(assignmentSchema),
-    defaultValues: { workerId: null, vehicleId: null, items: [] },
+    defaultValues: { workerId: undefined, vehicleId: undefined, items: [] },
   });
 
-  const handleItemToggle = (itemId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedItems((prev) => ({
-        ...prev,
-        [itemId]: {
-          quantity: 1,
-          assignedTo: mode === "worker" ? "worker" : "vehicle",
-        },
-      }));
-    } else {
-      setSelectedItems((prev) => {
-        const updated = { ...prev };
-        delete updated[itemId];
-        return updated;
-      });
-    }
-  };
-
-  const handleQuantityChange = (itemId: string, quantity: number) => {
-    setSelectedItems((prev) => ({
-      ...prev,
-      [itemId]: { ...prev[itemId], quantity },
-    }));
-  };
+  console.log({ values: form.getValues() });
 
   async function onSubmit(values: AssignmentValues) {
     try {
@@ -100,240 +109,232 @@ export function AssignmentsCreateForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="space-y-6">
-          <div>
-            <Label>Assign To</Label>
-            <div className="flex gap-4 mt-2">
-              {["worker", "vehicle"].map((m) => (
-                <div
-                  key={m}
-                  className={`cursor-pointer p-4 border rounded-md flex-1 text-center ${
-                    mode === m
-                      ? "border-primary bg-orange-50"
-                      : "border-gray-300"
-                  }`}
-                  onClick={() => {
-                    setMode(m as "worker" | "vehicle");
-                    setVehicleChoice(null);
-                    setSelectedItems({});
-                    form.reset();
-                  }}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        <div className="space-y-4">
+          <Tabs
+            defaultValue="assign-inventory-item"
+            className="w-full space-y-4"
+          >
+            <TabsList className="w-full">
+              <TabsTrigger value="assign-inventory-item">
+                <Package className="mr-2 h-4 w-4" />
+                Assign Inventory Item
+              </TabsTrigger>
+              <TabsTrigger value="worker-to-vehicle">
+                <Users className="mr-2 h-4 w-4" />
+                Assign Worker to Vehicle
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="assign-inventory-item" className="space-y-7">
+              <FormField
+                control={form.control}
+                name="items"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Select Inventory Item(s) & Quantities</FormLabel>
+                    <FormControl>
+                      <MultiSelectWithQuantity
+                        options={inventory}
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        placeholder="Search and select items..."
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="space-y-4">
+                <RadioGroup
+                  value={selectedType} // controlled value
+                  onValueChange={setSelectedType} // updates state
+                  className="flex"
                 >
-                  {m === "worker" ? "Worker" : "Vehicle"}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Step 2: Vehicle secondary choice */}
-          {mode === "vehicle" && (
-            <div>
-              <Label>Assign Vehicle To</Label>
-              <div className="flex gap-4 mt-2">
-                {["worker", "inventory"].map((choice) => (
-                  <div
-                    key={choice}
-                    className={`cursor-pointer p-4 border rounded-md flex-1 text-center ${
-                      vehicleChoice === choice
-                        ? "border-primary bg-orange-50"
-                        : "border-gray-300"
-                    }`}
-                    onClick={() =>
-                      setVehicleChoice(choice as "worker" | "inventory")
-                    }
-                  >
-                    {choice === "worker" ? "Worker" : "Inventory Items"}
+                  <div className="flex items-center gap-3">
+                    <RadioGroupItem value="worker" id="r1" />
+                    <Label htmlFor="r1">Worker</Label>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
 
-          {/* Worker Mode */}
-          {mode === "worker" && (
-            /*  <div className="space-y-2">
-            <Label htmlFor="worker">Worker</Label>
-            <Select value={workerId} onValueChange={setWorkerId} required>
-              <SelectTrigger id="worker">
-                <SelectValue placeholder="Select worker" />
-              </SelectTrigger>
-              <SelectContent>
-                {workers.map((worker) => (
-                  <SelectItem key={worker.id} value={worker.id}>
-                    {worker.fullName}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div> */
+                  <div className="flex items-center gap-3">
+                    <RadioGroupItem value="vehicle" id="r3" />
+                    <Label htmlFor="r3">Vehicle</Label>
+                  </div>
+                </RadioGroup>
 
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="workerId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Worker</FormLabel>
-                    <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select a worker" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {workers.map((worker) => (
-                            <SelectItem key={worker.id} value={worker.id}>
-                              {worker.fullName}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                {/* Example: Conditional UI based on selected radio */}
+                {selectedType === "worker" && (
+                  <FormField
+                    control={form.control}
+                    name="workerId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Select Target Worker</FormLabel>
+                        <FormControl>
+                          <Popover open={open} onOpenChange={setOpen}>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={open}
+                                className="justify-between"
+                              >
+                                {field.value
+                                  ? workers.find(
+                                      (worker) => worker.id === field.value
+                                    )?.fullName
+                                  : "Select Worker"}
+                                <ChevronsUpDown className="opacity-50" />
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="p-0" align="start">
+                              <Command>
+                                <CommandInput
+                                  placeholder="Search workers..."
+                                  className="h-9"
+                                />
+                                <CommandList>
+                                  <CommandEmpty>No worker found.</CommandEmpty>
+                                  <CommandGroup>
+                                    {workers.map((worker) => (
+                                      <CommandItem
+                                        key={worker.id}
+                                        value={worker.fullName}
+                                        onSelect={(currentValue) => {
+                                          field.onChange(
+                                            currentValue === field.value
+                                              ? ""
+                                              : currentValue
+                                          );
+                                          setOpen(false);
+                                        }}
+                                      >
+                                        {worker.fullName}
+                                        <Check
+                                          className={cn(
+                                            "ml-auto",
+                                            field.value === worker.fullName
+                                              ? "opacity-100"
+                                              : "opacity-0"
+                                          )}
+                                        />
+                                      </CommandItem>
+                                    ))}
+                                  </CommandGroup>
+                                </CommandList>
+                              </Command>
+                            </PopoverContent>
+                          </Popover>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 )}
-              />
 
-              <div className="space-y-2">
-                <Label>Inventory Items</Label>
-                <div className="border border-border rounded-md p-3 space-y-3 max-h-48 overflow-y-auto">
-                  {inventory.map((item) => (
-                    <div key={item.id} className="space-y-2">
-                      <div className="flex items-center gap-3">
-                        <Checkbox
-                          id={`item-${item.id}`}
-                          checked={item.id in selectedItems}
-                          onCheckedChange={(checked) =>
-                            handleItemToggle(item.id, checked as boolean)
-                          }
-                        />
-                        <div className="flex-1">
-                          <label
-                            htmlFor={`item-${item.id}`}
-                            className="text-sm cursor-pointer block"
-                          >
-                            {item.name}{" "}
-                            <span className="text-muted-foreground">
-                              ({item.quantity} available)
-                            </span>
-                            {/* {item.isConsumable && (
-                            <span className="ml-2 text-xs bg-amber-500/20 text-amber-700 px-2 py-0.5 rounded">
-                              Consumable
-                            </span>
-                          )} */}
-                          </label>
-                        </div>
-                        {item.id in selectedItems && (
-                          <Input
-                            type="number"
-                            min="1"
-                            max={item.quantity}
-                            value={selectedItems[item.id].quantity}
-                            onChange={(e) =>
-                              handleQuantityChange(
-                                item.id,
-                                Number.parseInt(e.target.value) || 1
-                              )
-                            }
-                            className="w-20 h-8"
-                          />
-                        )}
-                      </div>
-
-                      {/* {item.id in selectedItems && assignmentMode === "both" && (
-                      <div className="ml-8 space-y-1">
-                        <Label className="text-xs text-muted-foreground">
-                          Assign to:
-                        </Label>
-                        <RadioGroup
-                          value={selectedItems[item.id].assignedTo}
-                          onValueChange={(value) =>
-                            handleAssignedToChange(
-                              item.id,
-                              value as "worker" | "vehicle" | "both"
-                            )
-                          }
-                        >
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem
-                              value="worker"
-                              id={`${item.id}-worker`}
-                            />
-                            <Label
-                              htmlFor={`${item.id}-worker`}
-                              className="cursor-pointer font-normal text-xs"
-                            >
-                              Worker
-                            </Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem
-                              value="vehicle"
-                              id={`${item.id}-vehicle`}
-                            />
-                            <Label
-                              htmlFor={`${item.id}-vehicle`}
-                              className="cursor-pointer font-normal text-xs"
-                            >
-                              Vehicle
-                            </Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem
-                              value="both"
-                              id={`${item.id}-both`}
-                            />
-                            <Label
-                              htmlFor={`${item.id}-both`}
-                              className="cursor-pointer font-normal text-xs"
-                            >
-                              Both
-                            </Label>
-                          </div>
-                        </RadioGroup>
-                      </div>
-                    )} */}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {mode === "vehicle" && vehicleChoice === "worker" && (
-            <div className="mt-4">
-              <FormField
-                control={form.control}
-                name="workerId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Select Worker for Vehicle</FormLabel>
-                    <FormControl>
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select worker" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {workers.map((w) => (
-                            <SelectItem key={w.id} value={w.id}>
-                              {w.fullName}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                {selectedType === "vehicle" && (
+                  <FormField
+                    control={form.control}
+                    name="vehicleId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Select Target Vehicle</FormLabel>
+                        <FormControl>
+                          <Popover open={open} onOpenChange={setOpen}>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={open}
+                                className="justify-between"
+                              >
+                                {field.value
+                                  ? vehicles.find(
+                                      (vehicle) =>
+                                        vehicle.licensePlate === field.value
+                                    )?.licensePlate
+                                  : "Select Vehicle..."}
+                                <ChevronsUpDown className="opacity-50" />
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="p-0" align="start">
+                              <Command>
+                                <CommandInput
+                                  placeholder="Search vehicle..."
+                                  className="h-9"
+                                />
+                                <CommandList>
+                                  <CommandEmpty>No vehicle found.</CommandEmpty>
+                                  <CommandGroup>
+                                    {vehicles.map((vehicle) => (
+                                      <CommandItem
+                                        key={vehicle.id}
+                                        value={vehicle.licensePlate}
+                                        onSelect={(currentValue) => {
+                                          field.onChange(
+                                            currentValue === field.value
+                                              ? ""
+                                              : currentValue
+                                          );
+                                          setOpen(false);
+                                        }}
+                                      >
+                                        {vehicle.licensePlate}
+                                        <Check
+                                          className={cn(
+                                            "ml-auto",
+                                            field.value === vehicle.licensePlate
+                                              ? "opacity-100"
+                                              : "opacity-0"
+                                          )}
+                                        />
+                                      </CommandItem>
+                                    ))}
+                                  </CommandGroup>
+                                </CommandList>
+                              </Command>
+                            </PopoverContent>
+                          </Popover>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 )}
-              />
-            </div>
-          )}
+              </div>
+            </TabsContent>
+            <TabsContent value="worker-to-vehicle">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Password</CardTitle>
+                  <CardDescription>
+                    Change your password here. After saving, you&apos;ll be
+                    logged out.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="grid gap-6">
+                  <div className="grid gap-3">
+                    <Label htmlFor="tabs-demo-current">Current password</Label>
+                    <Input id="tabs-demo-current" type="password" />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="tabs-demo-new">New password</Label>
+                    <Input id="tabs-demo-new" type="password" />
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button>Save password</Button>
+                </CardFooter>
+              </Card>
+            </TabsContent>
+          </Tabs>
+
+          <div className="flex justify-end gap-2.5 pt-4">
+            <Button type="button" variant="outline" onClick={onCancel}>
+              Cancel
+            </Button>
+            <Button type="submit">Add Item</Button>
+          </div>
         </div>
 
         {/* <FormField
@@ -354,13 +355,6 @@ export function AssignmentsCreateForm({
             </FormItem>
           )}
         /> */}
-
-        <div className="flex justify-end gap-2.5 pt-4">
-          <Button type="button" variant="outline" onClick={onCancel}>
-            Cancel
-          </Button>
-          <Button type="submit">Add Item</Button>
-        </div>
       </form>
     </Form>
   );
