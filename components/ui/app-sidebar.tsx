@@ -41,7 +41,7 @@ const allItems = [
     icon: Package,
     roles: ["admin", "inventory"],
   },
-  { href: "/wages", label: "Wages", icon: DollarSign, roles: ["admin"] },
+  /* { href: "/wages", label: "Wages", icon: DollarSign, roles: ["admin"] }, */
   {
     href: "/assignments",
     label: "Assignments",
