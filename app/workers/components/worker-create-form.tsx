@@ -21,7 +21,6 @@ import { toast } from "sonner";
 
 export function WorkerCreateForm({
   onSuccess,
-  vehicles,
 }: {
   onSuccess?: () => void;
   vehicles: Vehicle[];

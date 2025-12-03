@@ -1,7 +1,6 @@
 import { getDriverById } from "@/app/actions/drivers";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { calculateTotalDifference } from "@/lib/helpers/workLog";
 import { AlertTriangleIcon, CalendarIcon, TruckIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -30,24 +29,7 @@ export default async function DriverDetailsPage({
     });
   };
 
-  const totalWorkLogs = driver.workLogs.length;
   const totalVehicles = driver.vehicles.length;
-  const weeklyDifferenceMinutes = calculateTotalDifference(
-    driver.workLogs,
-    "week"
-  ).minutes; // "01:30"
-  const weeklyDifferenceTime = calculateTotalDifference(
-    driver.workLogs,
-    "week"
-  ).time; // "01:30"
-  const monthlyDifferenceTime = calculateTotalDifference(
-    driver.workLogs,
-    "month"
-  ).time; // "01:30"
-  const monthlyDifferenceMinutes = calculateTotalDifference(
-    driver.workLogs,
-    "month"
-  ).minutes; // "01:30"
 
   return (
     <div className="container p-6 space-y-6">

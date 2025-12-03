@@ -15,7 +15,6 @@ import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import {
   ClipboardList,
-  DollarSign,
   LayoutDashboard,
   Package,
   Truck,
@@ -27,7 +26,7 @@ import { usePathname } from "next/navigation";
 // All possible sidebar items with roles
 const allItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard, roles: ["admin"] },
-  { href: "/drivers", label: "Treiber", icon: Users, roles: ["admin"] },
+  /*   { href: "/drivers", label: "Treiber", icon: Users, roles: ["admin"] }, */
   { href: "/workers", label: "Workers", icon: Users, roles: ["admin"] },
   {
     href: "/vehicles",

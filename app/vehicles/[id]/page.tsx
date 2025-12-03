@@ -8,16 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import {
-  ClipboardCheckIcon,
-  CakeIcon as CraneIcon,
-  GaugeIcon,
-  MapPinIcon,
-  ShieldCheckIcon,
-  TruckIcon,
-  UserIcon,
-  WrenchIcon,
-} from "lucide-react";
+import { GaugeIcon, MapPinIcon, TruckIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -32,21 +23,6 @@ export default async function VehicleDetailsPage({
   if (!vehicle) {
     notFound();
   }
-
-  const inspections = [
-    {
-      name: "Next Inspection",
-      date: vehicle.nextInspection,
-      icon: ClipboardCheckIcon,
-    },
-    { name: "SP Check", date: vehicle.spCheck, icon: ShieldCheckIcon },
-    { name: "UVV Check", date: vehicle.uvvCheck, icon: WrenchIcon },
-    {
-      name: "Crane Inspection",
-      date: vehicle.craneInspection,
-      icon: CraneIcon,
-    },
-  ];
 
   return (
     <div className="container mx-auto p-6 space-y-6">
