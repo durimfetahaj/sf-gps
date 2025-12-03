@@ -2,7 +2,6 @@ import type React from "react";
 interface PageHeaderProps {
   title: string;
   description?: string;
-  action?: React.ReactNode;
 }
 
 export function PageHeader({ title, description }: PageHeaderProps) {
