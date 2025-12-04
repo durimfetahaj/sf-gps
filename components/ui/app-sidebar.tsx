@@ -12,7 +12,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { useUser } from "@clerk/nextjs";
 import {
   ClipboardList,
   LayoutDashboard,
@@ -51,14 +50,14 @@ const allItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const { user } = useUser();
-  const role = user?.publicMetadata?.role as string | undefined;
+  /*   const { user } = useUser();
+  const role = user?.publicMetadata?.role as string | undefined; */
 
   // Filter items based on role
-  const visibleItems = allItems.filter((item) => {
+  /* const visibleItems = allItems.filter((item) => {
     if (role === "admin") return true; // Admin sees everything
     return role ? item.roles.includes(role) : false;
-  });
+  }); */
 
   return (
     <Sidebar>
@@ -69,7 +68,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {visibleItems.map((item) => {
+              {allItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
                   <SidebarMenuItem key={item.href}>

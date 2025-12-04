@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 
 import { createWorker } from "@/app/actions/workers";
 import { Vehicle } from "@/app/generated/prisma";
-import { DatePicker } from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
 import {
   Form,
