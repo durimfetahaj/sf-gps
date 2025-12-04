@@ -11,17 +11,20 @@ export default async function WorkersPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-9">
-        <PageHeader title="Workers" description="Manage your workforce" />
+        <PageHeader
+          title="Arbeiter"
+          description="Verwalten Sie Ihre Belegschaft"
+        />
         <WorkerCreateDialog vehicles={vehicles} />
       </div>
       {workers.length > 0 ? (
         <DataTable
           data={workers}
           columns={workerColumns}
-          searchPlaceholder="Workers suchen..."
+          searchPlaceholder="Arbeiter suchen..."
         />
       ) : (
-        <p className="text-center text-muted-foreground">No workers.</p>
+        <p className="text-center text-muted-foreground">Keine Mitarbeiter.</p>
       )}
     </div>
   );

@@ -21,14 +21,16 @@ export function WorkerCreateDialog({ vehicles }: { vehicles: Vehicle[] }) {
       <DialogTrigger asChild>
         <Button>
           <Plus className="h-4 w-4" />
-          Add Worker
+          Arbeiter hinzufügen
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add Worker</DialogTitle>
-          <DialogDescription>Add a new worker to your team.</DialogDescription>
+          <DialogTitle>Arbeiter hinzufügen</DialogTitle>
+          <DialogDescription>
+            Fügen Sie einen neuen Mitarbeiter zu Ihrem Team hinzu.
+          </DialogDescription>
         </DialogHeader>
 
         <WorkerCreateForm

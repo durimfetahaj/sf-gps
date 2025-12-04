@@ -31,8 +31,6 @@ export function WorkerCreateForm({
       fullName: "",
       email: "",
       phone: "",
-      hourlyRate: 0,
-      employmentStart: new Date(),
     },
   });
 
@@ -70,7 +68,7 @@ export function WorkerCreateForm({
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Vollständiger Name</FormLabel>
+              <FormLabel>E-mail</FormLabel>
               <FormControl>
                 <Input
                   type="email"
@@ -88,7 +86,7 @@ export function WorkerCreateForm({
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone</FormLabel>
+              <FormLabel>Telefon</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="123456789" {...field} />
               </FormControl>
@@ -97,45 +95,8 @@ export function WorkerCreateForm({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="hourlyRate"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Hourly rate</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  {...field}
-                  placeholder="25"
-                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="employmentStart"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Datum des Beschäftigungsbeginns</FormLabel>
-              <FormControl>
-                <DatePicker
-                  value={field.value}
-                  onChange={field.onChange}
-                  placeholder="Wählen Sie ein Datum aus"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <div className="flex justify-end pt-4">
-          <Button type="submit">Treiber erstellen</Button>
+          <Button type="submit">Neu hinzufügen</Button>
         </div>
       </form>
     </Form>

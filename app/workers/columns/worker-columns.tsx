@@ -22,15 +22,7 @@ export const workerColumns: ColumnDef<Worker>[] = [
   },
   {
     accessorKey: "phone",
-    header: "Phone",
+    header: "Telefon",
     cell: defaultCell("N/A"),
-  },
-  {
-    accessorKey: "employmentStart",
-    header: "Employment Start",
-    cell: ({ getValue }) => {
-      const date = getValue<Date>();
-      return new Date(date).toLocaleDateString("en-US");
-    },
   },
 ];
