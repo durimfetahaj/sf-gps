@@ -3,6 +3,7 @@ import { z } from "zod";
 // Schema for a single assigned item
 export const assignmentSchema = z
   .object({
+    assignedAt: z.date({ error: "Date is required" }),
     workerId: z.string().optional(),
     vehicleId: z.string().optional(),
     items: z
@@ -10,7 +11,6 @@ export const assignmentSchema = z
         z.object({
           itemId: z.string(),
           quantity: z.number().min(1),
-          assignedTo: z.enum(["worker", "vehicle"]),
         })
       )
       .optional(),

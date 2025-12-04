@@ -1,14 +1,18 @@
+import { DataTable } from "@/components/DataTable";
 import { PageHeader } from "@/components/page-header";
-import { AssignmentsCreateDialog } from "./components/assignments-create-dialog";
+import { getAssignment } from "../actions/assignment";
+import { getInventory } from "../actions/inventory";
 import { getVehicles } from "../actions/vehicle";
 import { getWorkers } from "../actions/workers";
-import { getInventory } from "../actions/inventory";
-import AssignmentCardExample from "./test";
+import { assignmentsColumns } from "./columns/assignments-columns";
+import { AssignmentsCreateDialog } from "./components/assignments-create-dialog";
 
 export default async function AssingmentsPage() {
   const vehicles = await getVehicles();
   const workers = await getWorkers();
   const inventory = await getInventory();
+  const assignments = await getAssignment();
+
   return (
     <main>
       <div className="flex justify-between items-center mb-6">
@@ -23,15 +27,15 @@ export default async function AssingmentsPage() {
         />
       </div>
 
-      {/*   {vehicles.length > 0 ? (
+      {assignments.length > 0 ? (
         <DataTable
-          data={vehicles}
-          columns={vehicleColumns}
+          data={assignments}
+          columns={assignmentsColumns}
           searchPlaceholder="Fahrzeuge suchen..."
         />
       ) : (
-        <p>Keine Fahrzeuge verfügbar.</p>
-      )} */}
+        <p className="text-center text-muted-foreground">No assignments.</p>
+      )}
     </main>
   );
 }

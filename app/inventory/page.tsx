@@ -24,7 +24,7 @@ export default async function Inventory() {
           searchPlaceholder="Workers suchen..."
         />
       ) : (
-        <p>Keine Fahrzeuge verfügbar.</p>
+        <p className="text-center text-muted-foreground">No inventory.</p>
       )}
     </main>
   );

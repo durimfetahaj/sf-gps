@@ -10,13 +10,17 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { VehicleCreateForm } from "./vehicle-create-form";
+import { Plus } from "lucide-react";
 
 export function VehicleCreateDialog() {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Fahrzeug hinzufügen</Button>
+        <Button>
+          <Plus />
+          Fahrzeug hinzufügen
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">

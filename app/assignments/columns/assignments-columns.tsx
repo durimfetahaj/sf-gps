@@ -1,32 +1,71 @@
 "use client";
 
-import { Assignment, Worker } from "@/app/generated/prisma";
+import {
+  Assignment,
+  AssignmentItem,
+  Vehicle,
+  Worker,
+} from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
 
-const defaultCell =
-  (fallback = "—") =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ({ getValue }: any) => {
-    const value = getValue();
-    return value && value.trim() !== "" ? value : fallback;
-  };
+type AssignmentWithRelations = Assignment & {
+  worker?: Worker | null;
+  vehicle?: Vehicle | null;
+  items?: (AssignmentItem & { item: { name: string } })[];
+};
 
-export const assignmentsColumns: ColumnDef<Assignment>[] = [
+export const assignmentsColumns: ColumnDef<AssignmentWithRelations>[] = [
   {
-    accessorKey: "workerId",
-    header: "Name",
+    accessorKey: "assignedTo",
+    header: "Assigned To",
+    cell: ({ row }) => {
+      const assignment = row.original;
+
+      if (assignment.worker) {
+        return (
+          <div>
+            <div>{assignment.worker.fullName}</div>
+            <div className="text-sm text-muted-foreground">
+              {assignment.worker.email}
+            </div>
+          </div>
+        );
+      }
+
+      if (assignment.vehicle) {
+        return (
+          <div>
+            <div>{assignment.vehicle.licensePlate}</div>
+            <div className="text-sm text-muted-foreground">
+              {assignment.vehicle.model}
+            </div>
+          </div>
+        );
+      }
+
+      return <span className="text-muted-foreground">N/A</span>;
+    },
   },
   {
-    accessorKey: "email",
-    header: "E-mail",
+    header: "Items",
+    accessorKey: "items",
+    cell: ({ getValue }) => {
+      const items = getValue<AssignmentWithRelations["items"]>();
+      if (!items || items.length === 0)
+        return <span className="text-muted-foreground">None</span>;
+      return (
+        <ul className="list-disc ml-4">
+          {items.map(({ item, quantity }, i) => (
+            <li key={i}>
+              {item.name} x{quantity}
+            </li>
+          ))}
+        </ul>
+      );
+    },
   },
   {
-    accessorKey: "",
-    header: "Phone",
-    cell: defaultCell("N/A"),
-  },
-  {
-    accessorKey: "employmentStart",
+    accessorKey: "assignedAt",
     header: "Employment Start",
     cell: ({ getValue }) => {
       const date = getValue<Date>();

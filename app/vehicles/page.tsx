@@ -23,7 +23,7 @@ export default async function VehiclesPage() {
             searchPlaceholder="Fahrzeuge suchen..."
           />
         ) : (
-          <p>Keine Fahrzeuge verfügbar.</p>
+          <p className="text-center text-muted-foreground">No vehicles.</p>
         )}
       </>
     </main>

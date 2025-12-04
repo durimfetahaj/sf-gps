@@ -21,7 +21,7 @@ export default async function WorkersPage() {
           searchPlaceholder="Workers suchen..."
         />
       ) : (
-        <p>Keine Fahrzeuge verfügbar.</p>
+        <p className="text-center text-muted-foreground">No workers.</p>
       )}
     </div>
   );
