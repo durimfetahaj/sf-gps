@@ -7,6 +7,7 @@ import {
   Worker,
 } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
+import { ItemBadges } from "./components/item-badges";
 
 type AssignmentWithRelations = Assignment & {
   worker?: Worker | null;
@@ -17,7 +18,7 @@ type AssignmentWithRelations = Assignment & {
 export const assignmentsColumns: ColumnDef<AssignmentWithRelations>[] = [
   {
     accessorKey: "assignedTo",
-    header: "Assigned To",
+    header: "Zugewiesen an",
     cell: ({ row }) => {
       const assignment = row.original;
 
@@ -47,26 +48,16 @@ export const assignmentsColumns: ColumnDef<AssignmentWithRelations>[] = [
     },
   },
   {
-    header: "Items",
+    header: "Artikel",
     accessorKey: "items",
     cell: ({ getValue }) => {
-      const items = getValue<AssignmentWithRelations["items"]>();
-      if (!items || items.length === 0)
-        return <span className="text-muted-foreground">None</span>;
-      return (
-        <ul className="list-disc ml-4">
-          {items.map(({ item, quantity }, i) => (
-            <li key={i}>
-              {item.name} x{quantity}
-            </li>
-          ))}
-        </ul>
-      );
+      const items = getValue<AssignmentWithRelations["items"]>() ?? [];
+      return <ItemBadges items={items} />;
     },
   },
   {
     accessorKey: "assignedAt",
-    header: "Employment Start",
+    header: "Zugewiesen am",
     cell: ({ getValue }) => {
       const date = getValue<Date>();
       return new Date(date).toLocaleDateString("en-US");
