@@ -9,16 +9,33 @@ export async function getInventory() {
 }
 
 export async function createInventoryItem(data: InventoryItemValues) {
-  const newDriver = await prisma.inventoryItem.create({
-    data: {
-      name: data.name,
-      quantity: data.quantity ?? 0,
-    },
+  const existing = await prisma.inventoryItem.findUnique({
+    where: { name: data.name },
   });
+
+  let item;
+
+  if (existing) {
+    // Item exists → add to quantity
+    item = await prisma.inventoryItem.update({
+      where: { id: existing.id },
+      data: {
+        quantity: existing.quantity + (data.quantity ?? 0),
+      },
+    });
+  } else {
+    // Item does not exist → create new
+    item = await prisma.inventoryItem.create({
+      data: {
+        name: data.name,
+        quantity: data.quantity ?? 0,
+      },
+    });
+  }
 
   revalidatePath("/inventory");
 
-  return newDriver;
+  return item;
 }
 
 /* export async function deleteDriver(id: string) {
