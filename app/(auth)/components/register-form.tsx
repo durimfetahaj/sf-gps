@@ -17,28 +17,49 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import { LoginFormValues, loginSchema } from "@/lib/validators/login";
+import { LoginFormValues } from "@/lib/validators/login";
+import { RegisterFormValues, registerSchema } from "@/lib/validators/register";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-export function LoginForm({
+export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
 
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
   async function onSubmit(values: LoginFormValues) {
     try {
+      await authClient.signUp.email(
+        {
+          name: values.email,
+          email: values.email,
+          password: values.password,
+          callbackURL: "/",
+        },
+        {
+          onSuccess: () => {
+            router.push("/(auth)/login");
+          },
+          onError: (ctx) => {
+            toast.error(ctx.error.message);
+          },
+        }
+      );
+
       /* await createWorker(values); */
       /* toast.success("Driver created successfully!"); */
       /*    onSuccess?.(); */
@@ -115,9 +136,29 @@ export function LoginForm({
                 )}
               />
 
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="confirmPassword"
+                        type="password"
+                        required
+                        placeholder="********"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <div className="flex justify-end pt-4">
-                <Button type="submit" className="w-full">
-                  Login
+                <Button type="submit" className="w-full" disabled={isPending}>
+                  Register
                 </Button>
               </div>
             </form>
