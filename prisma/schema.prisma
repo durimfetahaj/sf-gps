@@ -63,8 +63,6 @@ model InventoryItem {
   id   String @id @default(cuid())
   name String @unique
 
-  sku String @unique
-
   quantity Int
 
   type String

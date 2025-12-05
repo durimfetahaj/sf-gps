@@ -2,15 +2,17 @@
 
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
-import { authClient } from "@/lib/auth-client";
+/* import { authClient } from "@/lib/auth-client"; */
 import { requireAuth } from "@/lib/auth-utils";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
 
 export default function Home() {
-  const { data } = authClient.useSession();
+  /* const { data } = authClient.useSession(); */
   /*  await requireAuth(); */
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-background">
+      <LogoutLink>Log out</LogoutLink>
       {/*   <main className=""> */}
       {/* <div className="">
           <PageHeader
@@ -20,13 +22,13 @@ export default function Home() {
         </div> */}
       {/*  </main> */}
 
-      {JSON.stringify(data)}
+      {/*  {JSON.stringify(data)} */}
 
-      {data && (
+      {/* {data && (
         <div>
           <Button onClick={() => authClient.signOut()}>Logout</Button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { authClient } from "@/lib/auth-client";
+/* import { authClient } from "@/lib/auth-client"; */
 import { cn } from "@/lib/utils";
 import { LoginFormValues } from "@/lib/validators/login";
 import { RegisterFormValues, registerSchema } from "@/lib/validators/register";
@@ -43,7 +43,7 @@ export function RegisterForm({
 
   async function onSubmit(values: LoginFormValues) {
     try {
-      await authClient.signUp.email(
+      /*   await authClient.signUp.email(
         {
           name: values.email,
           email: values.email,
@@ -58,8 +58,7 @@ export function RegisterForm({
             toast.error(ctx.error.message);
           },
         }
-      );
-
+      ); */
       /* await createWorker(values); */
       /* toast.success("Driver created successfully!"); */
       /*    onSuccess?.(); */

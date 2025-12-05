@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { requireAuth } from "@/lib/auth-utils";
 import { AppSidebar } from "@/components/ui/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import UserMenu from "@/components/user-menu";
 
 export default async function DashboardLayout({
   children,
@@ -18,6 +19,7 @@ export default async function DashboardLayout({
         <div className="flex flex-col flex-1">
           <header className="flex justify-end items-center pt-6 pr-6 pb-0 pl-0 gap-4">
             {/* Header content like user button, etc. */}
+            <UserMenu />
           </header>
           <main className="flex-1 p-6">{children}</main>
         </div>
