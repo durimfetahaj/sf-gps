@@ -1,11 +1,11 @@
 import { DataTable } from "@/components/DataTable";
 import { PageHeader } from "@/components/page-header";
-import { getAssignment } from "../actions/assignment";
-import { getInventory } from "../actions/inventory";
-import { getVehicles } from "../actions/vehicle";
-import { getWorkers } from "../actions/workers";
 import { assignmentsColumns } from "./columns/assignments-columns";
 import { AssignmentsCreateDialog } from "./components/assignments-create-dialog";
+import { getVehicles } from "@/app/actions/vehicle";
+import { getWorkers } from "@/app/actions/workers";
+import { getInventory } from "@/app/actions/inventory";
+import { getAssignment } from "@/app/actions/assignment";
 
 export default async function AssingmentsPage() {
   const vehicles = await getVehicles();

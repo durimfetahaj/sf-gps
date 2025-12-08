@@ -1,8 +1,8 @@
 import { DataTable } from "@/components/DataTable";
 import { PageHeader } from "@/components/page-header";
-import { getInventory } from "../actions/inventory";
 import { inventoryColumns } from "./columns/inventory-columns";
 import { InventoryCreateDialog } from "./components/inventory-create-dialog";
+import { getInventory } from "@/app/actions/inventory";
 
 export default async function Inventory() {
   const inventory = await getInventory();

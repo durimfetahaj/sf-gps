@@ -1,9 +1,9 @@
 import { DataTable } from "@/components/DataTable";
 import { PageHeader } from "@/components/page-header";
-import { getVehicles } from "../actions/vehicle";
-import { getWorkers } from "../actions/workers";
 import { workerColumns } from "./columns/worker-columns";
 import { WorkerCreateDialog } from "./components/worker-create-dialog";
+import { getVehicles } from "@/app/actions/vehicle";
+import { getWorkers } from "@/app/actions/workers";
 
 export default async function WorkersPage() {
   const vehicles = await getVehicles();

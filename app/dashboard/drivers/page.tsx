@@ -1,8 +1,8 @@
 import { DataTable } from "@/components/DataTable";
-import { getDrivers } from "../actions/drivers";
+import { getDrivers } from "../../actions/drivers";
 import { driverColumns } from "@/components/driver/driver-columns";
 import { DriverCreateDialog } from "./components/driver-create-dialog";
-import { getVehicles } from "../actions/vehicle";
+import { getVehicles } from "../../actions/vehicle";
 
 export default async function Drivers() {
   const drivers = await getDrivers();

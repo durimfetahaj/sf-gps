@@ -24,24 +24,34 @@ import { usePathname } from "next/navigation";
 
 // All possible sidebar items with roles
 const allItems = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard, roles: ["admin"] },
-  /*   { href: "/drivers", label: "Treiber", icon: Users, roles: ["admin"] }, */
-  { href: "/workers", label: "Workers", icon: Users, roles: ["admin"] },
   {
-    href: "/vehicles",
+    href: "/dashboard",
+    label: "Dashboard",
+    icon: LayoutDashboard,
+    roles: ["admin"],
+  },
+  /*   { href: "/drivers", label: "Treiber", icon: Users, roles: ["admin"] }, */
+  {
+    href: "/dashboard/workers",
+    label: "Workers",
+    icon: Users,
+    roles: ["admin"],
+  },
+  {
+    href: "/dashboard/vehicles",
     label: "Vehicles",
     icon: Truck,
     roles: ["admin", "vehicle"],
   },
   {
-    href: "/inventory",
+    href: "/dashboard/inventory",
     label: "Inventory",
     icon: Package,
     roles: ["admin", "inventory"],
   },
   /* { href: "/wages", label: "Wages", icon: DollarSign, roles: ["admin"] }, */
   {
-    href: "/assignments",
+    href: "/dashboard/assignments",
     label: "Assignments",
     icon: ClipboardList,
     roles: ["admin"],
