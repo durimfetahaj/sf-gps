@@ -24,7 +24,7 @@ export async function createWorker(data: {
     },
   });
 
-  revalidatePath("/workers");
+  revalidatePath("/dashboard");
 
   return newDriver;
 }

@@ -68,7 +68,7 @@ export async function createDriver(data: {
     });
   }
 
-  revalidatePath("/drivers");
+  revalidatePath("/dashboard");
 
   return newDriver;
 }

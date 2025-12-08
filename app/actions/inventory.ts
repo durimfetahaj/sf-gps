@@ -33,8 +33,7 @@ export async function createInventoryItem(data: InventoryItemValues) {
     });
   }
 
-  revalidatePath("/dashboard/inventory");
-  revalidatePath("/dashboard/assignments");
+  revalidatePath("/dashboard");
 
   return item;
 }
