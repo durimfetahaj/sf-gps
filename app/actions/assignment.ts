@@ -55,7 +55,8 @@ export async function createAssignment(data: AssignmentValues) {
     });
   }
 
-  revalidatePath("/assignments");
+  revalidatePath("/dashboard/assignments");
+  revalidatePath("/dashboard/inventory");
 
   return newAssignment;
 }
