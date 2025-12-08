@@ -13,8 +13,6 @@ export default async function DriverDetailsPage({
   const { id } = params;
   const driver = await getDriverById(id);
 
-  console.log({ driver: driver.workLogs });
-
   if (!driver) {
     notFound();
   }

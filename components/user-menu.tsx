@@ -20,8 +20,6 @@ export default function UserMenu() {
   // Use Kinde's client-side hook
   const { user, isLoading, isAuthenticated } = useKindeBrowserClient();
 
-  console.log({ user });
-
   // Show loading state
   if (isLoading) {
     return (
