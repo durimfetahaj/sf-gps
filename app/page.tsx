@@ -1,9 +1,6 @@
 "use client";
 
-import { PageHeader } from "@/components/page-header";
-import { Button } from "@/components/ui/button";
 /* import { authClient } from "@/lib/auth-client"; */
-import { requireAuth } from "@/lib/auth-utils";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
 
 export default function Home() {

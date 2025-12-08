@@ -1,8 +1,7 @@
-import { ReactNode } from "react";
-import { requireAuth } from "@/lib/auth-utils";
 import { AppSidebar } from "@/components/ui/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import UserMenu from "@/components/user-menu";
+import { ReactNode } from "react";
 
 export default async function DashboardLayout({
   children,
