@@ -39,7 +39,7 @@ export async function createVehicle(data: VehicleFormValues) {
     },
   });
 
-  revalidatePath("/posts");
+  revalidatePath("/vehicles");
 
   return vehicle;
 }
