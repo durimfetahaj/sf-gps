@@ -8,19 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Driver {
-  id              String    @id @default(cuid())
-  fullName        String
-  hasDiscrepancy  Boolean   @default(false)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  employmentStart DateTime?
-  vehicles        Vehicle[]
-  workLogs        WorkLog[]
-
-  @@map("drivers")
-}
-
 model Worker {
   id              String       @id @default(cuid())
   fullName        String
@@ -31,7 +18,6 @@ model Worker {
   updatedAt       DateTime     @updatedAt
   employmentStart DateTime?
   assignments     Assignment[]
-  workLogs        WorkLog[]
 
   @@map("workers")
 }
@@ -80,92 +66,6 @@ model Vehicle {
   driverId        String?
   model           String?
   assignments     Assignment[]
-  driver          Driver?      @relation(fields: [driverId], references: [id])
-  workLogs        WorkLog[]
 
   @@map("vehicles")
-}
-
-model WorkLog {
-  id              String   @id @default(cuid())
-  driverId        String
-  vehicleId       String
-  gpsStartTime    String
-  gpsEndTime      String
-  breakTime       String?
-  reportStartTime String
-  reportEndTime   String
-  difference      String?
-  comment         String?
-  km              Float?
-  updatedAt       DateTime @updatedAt
-  createdAt       DateTime @default(now())
-  date            DateTime
-  workerId        String?
-  driver          Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
-  vehicle         Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
-  worker          Worker?  @relation(fields: [workerId], references: [id])
-
-  @@map("work_logs")
-}
-
-model User {
-  id            String    @id
-  name          String
-  email         String    @unique
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-
-  @@map("user")
-}
-
-model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@map("session")
-}
-
-model Account {
-  id                    String    @id
-  accountId             String
-  providerId            String
-  userId                String
-  accessToken           String?
-  refreshToken          String?
-  idToken               String?
-  accessTokenExpiresAt  DateTime?
-  refreshTokenExpiresAt DateTime?
-  scope                 String?
-  password              String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@map("account")
-}
-
-model Verification {
-  id         String   @id
-  identifier String
-  value      String
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@index([identifier])
-  @@map("verification")
 }

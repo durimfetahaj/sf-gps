@@ -9,9 +9,7 @@ import { z } from "zod";
 export type VehicleFormValues = z.infer<typeof vehicleSchema>;
 
 export async function getVehicles() {
-  const vehicle = await prisma.vehicle.findMany({
-    include: { driver: true, workLogs: true },
-  });
+  const vehicle = await prisma.vehicle.findMany();
 
   return vehicle;
 }
@@ -40,6 +38,7 @@ export async function createVehicle(data: VehicleFormValues) {
   });
 
   revalidatePath("/dashboard");
+  revalidatePath("/assignments");
 
   return vehicle;
 }
@@ -48,12 +47,6 @@ export async function getVehicleById(id: string) {
   try {
     const vehicle = await prisma.vehicle.findUnique({
       where: { id },
-      include: {
-        workLogs: {
-          orderBy: { date: "desc" },
-        },
-        driver: true,
-      },
     });
     return vehicle;
   } catch (error) {

@@ -8,8 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { GaugeIcon, MapPinIcon, TruckIcon, UserIcon } from "lucide-react";
-import Link from "next/link";
+import { GaugeIcon, MapPinIcon, TruckIcon } from "lucide-react";
 import { notFound } from "next/navigation";
 
 export default async function VehicleDetailsPage({
@@ -43,20 +42,6 @@ export default async function VehicleDetailsPage({
           </div>
 
           <div className="flex gap-3">
-            <div className="flex items-center gap-3">
-              <Link
-                href={`/drivers/${vehicle.driver?.id}`}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-md border bg-card hover:bg-accent/50 transition-colors group"
-              >
-                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <UserIcon className="h-4 w-4 text-primary" />
-                </div>
-                <span className="font-medium group-hover:text-primary transition-colors">
-                  {vehicle.driver?.fullName}
-                </span>
-              </Link>
-            </div>
-
             {vehicle.hasGps && (
               <Badge variant="default" className="px-3 py-1.5 bg-green-600">
                 <MapPinIcon className="h-3.5 w-3.5 mr-1.5" />
