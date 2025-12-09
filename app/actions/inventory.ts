@@ -1,5 +1,6 @@
 "use server";
 
+import { getTrend } from "@/lib/helpers/trend";
 import prisma from "@/lib/prisma";
 import { InventoryItemValues } from "@/lib/validators/inventory-item";
 import { revalidatePath } from "next/cache";
@@ -36,6 +37,29 @@ export async function createInventoryItem(data: InventoryItemValues) {
   revalidatePath("/dashboard");
 
   return item;
+}
+
+export async function getInventoryStats() {
+  // Current inventory count
+  const currentCount = await prisma.inventoryItem.count();
+
+  // Previous inventory count (e.g., 1 month ago)
+  const previousCount = await prisma.inventoryItem.count({
+    where: {
+      updatedAt: {
+        lte: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+      },
+    },
+  });
+
+  // Calculate trend
+  const trend = getTrend(currentCount, previousCount);
+
+  // Return count and trend
+  return {
+    count: currentCount,
+    trend,
+  };
 }
 
 /* export async function deleteDriver(id: string) {

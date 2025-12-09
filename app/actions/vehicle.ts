@@ -14,6 +14,16 @@ export async function getVehicles() {
   return vehicle;
 }
 
+export async function getAvailableVehicles() {
+  const vehicles = await prisma.vehicle.findMany({
+    where: {
+      driverId: null,
+    },
+  });
+
+  return vehicles;
+}
+
 export async function createVehicle(data: VehicleFormValues) {
   const parsed = vehicleSchema.parse(data);
 

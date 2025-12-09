@@ -15,8 +15,6 @@ export default async function AssingmentsPage() {
   const inventory = await getInventory();
   const assignments = await getAssignment();
 
-  console.log({ inventory });
-
   return (
     <main>
       <div className="flex justify-between items-center mb-6">

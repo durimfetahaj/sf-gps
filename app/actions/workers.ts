@@ -1,5 +1,6 @@
 "use server";
 
+import { getTrend } from "@/lib/helpers/trend";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -27,6 +28,29 @@ export async function createWorker(data: {
   revalidatePath("workers");
 
   return newDriver;
+}
+
+export async function getWorkersStats() {
+  // Current workers count
+  const currentCount = await prisma.worker.count();
+
+  // Previous workers count (e.g., 1 month ago)
+  const previousCount = await prisma.worker.count({
+    where: {
+      createdAt: {
+        lte: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+      },
+    },
+  });
+
+  // Calculate trend
+  const trend = getTrend(currentCount, previousCount);
+
+  // Return count and trend
+  return {
+    count: currentCount,
+    trend,
+  };
 }
 
 /* export async function deleteDriver(id: string) {
