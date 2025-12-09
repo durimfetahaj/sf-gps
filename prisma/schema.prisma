@@ -23,14 +23,17 @@ model Worker {
 }
 
 model Assignment {
-  id         String           @id @default(cuid())
-  workerId   String?
-  vehicleId  String?
-  assignedAt DateTime         @default(now())
+  id         String    @id @default(cuid())
+  assignedAt DateTime  @default(now())
   returnedAt DateTime?
-  vehicle    Vehicle?         @relation(fields: [vehicleId], references: [id])
-  worker     Worker?          @relation(fields: [workerId], references: [id])
-  items      AssignmentItem[]
+
+  workerId  String?
+  vehicleId String?
+
+  worker  Worker?  @relation(fields: [workerId], references: [id])
+  vehicle Vehicle? @relation(fields: [vehicleId], references: [id])
+
+  items AssignmentItem[]
 }
 
 model AssignmentItem {

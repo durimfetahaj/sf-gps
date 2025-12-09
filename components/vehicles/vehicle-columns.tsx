@@ -20,7 +20,7 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
     cell: ({ row }) => (
       <Link
         className={`text-blue-600 hover:underline hover:bg-gray-50 px-2 py-1 rounded transition-colors duration-150 cursor-pointer`}
-        href={`/vehicles/${row.original.id}`}
+        href={`/dashboard/vehicles/${row.original.id}`}
       >
         {row.original.licensePlate}
       </Link>
