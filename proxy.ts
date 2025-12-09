@@ -1,9 +1,18 @@
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export default withAuth(async function middleware(req: NextRequest) {}, {
-  // Middleware still runs on all routes, but doesn't protect the blog route
-  /*  loginPage: ["/login"], */
+export default withAuth(async function middleware(req: NextRequest) {
+  const path = req.nextUrl.pathname;
+
+  // Example: conditionally redirect
+  if (path === "/") {
+    const url = req.nextUrl.clone();
+    url.pathname = "/dashboard";
+    return NextResponse.redirect(url);
+  }
+
+  // You can return NextResponse if needed, e.g., redirect or rewrite
+  return NextResponse.next();
 });
 
 export const config = {
