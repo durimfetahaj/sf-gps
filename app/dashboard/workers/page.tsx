@@ -5,6 +5,8 @@ import { WorkerCreateDialog } from "./components/worker-create-dialog";
 import { getVehicles } from "@/app/actions/vehicle";
 import { getWorkers } from "@/app/actions/workers";
 
+export const revalidate = 0;
+
 export default async function WorkersPage() {
   const vehicles = await getVehicles();
   const workers = await getWorkers();
