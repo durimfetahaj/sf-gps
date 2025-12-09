@@ -11,5 +11,19 @@ export const inventoryColumns: ColumnDef<InventoryItem>[] = [
   {
     accessorKey: "quantity",
     header: "Menge",
+    cell: ({ getValue }) => {
+      const quantity = getValue() as number;
+
+      return (
+        <span
+          style={{
+            color: quantity <= 10 ? "red" : "inherit",
+            fontWeight: quantity <= 10 ? "bold" : "normal",
+          }}
+        >
+          {quantity}
+        </span>
+      );
+    },
   },
 ];

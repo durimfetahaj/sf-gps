@@ -1,12 +1,15 @@
+import { DataTable } from "@/components/DataTable";
 import { PageHeader } from "@/components/page-header";
 import { StatCard } from "@/components/stat-card";
-import { Package, Truck, Users } from "lucide-react";
-import { getInventoryStats } from "../actions/inventory";
+import { AlertCircle, Package, Truck, Users } from "lucide-react";
+import { getAssignment } from "../actions/assignment";
+import {
+  getInventoryStats,
+  getLowQuantityInventoryCount,
+} from "../actions/inventory";
 import { getAvailableVehicles } from "../actions/vehicle";
 import { getWorkersStats } from "../actions/workers";
-import { DataTable } from "@/components/DataTable";
 import { assignmentsColumns } from "./assignments/columns/assignments-columns";
-import { getAssignment } from "../actions/assignment";
 
 export const revalidate = 0;
 
@@ -14,6 +17,7 @@ export default async function Home() {
   const workers = await getWorkersStats();
   const availableVehicles = await getAvailableVehicles();
   const inventory = await getInventoryStats();
+  const lowQuantityItemsCount = await getLowQuantityInventoryCount();
   const assignments = await getAssignment();
 
   return (
@@ -45,6 +49,18 @@ export default async function Home() {
             value={inventory.count}
             icon={Package}
             trend={inventory.trend}
+          />
+
+          <StatCard
+            title="Artikel knapp vorrätig"
+            value={lowQuantityItemsCount}
+            icon={AlertCircle}
+            subtitle={
+              lowQuantityItemsCount > 0
+                ? "Artikel mit niedrigem Lagerbestand"
+                : "Alles gut"
+            }
+            variant={lowQuantityItemsCount > 0 ? "alert" : "default"}
           />
         </div>
 

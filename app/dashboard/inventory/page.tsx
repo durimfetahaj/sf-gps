@@ -3,13 +3,14 @@ import { PageHeader } from "@/components/page-header";
 import { inventoryColumns } from "./columns/inventory-columns";
 import { InventoryCreateDialog } from "./components/inventory-create-dialog";
 import { getInventory } from "@/app/actions/inventory";
+import { LowStockAlert } from "@/components/low-stock-alert";
 
 export const revalidate = 0;
 
 export default async function Inventory() {
   const inventory = await getInventory();
   return (
-    <main>
+    <main className="space-y-5">
       <div className="flex justify-between mb-9">
         <PageHeader
           title="Inventar"
@@ -18,6 +19,8 @@ export default async function Inventory() {
 
         <InventoryCreateDialog />
       </div>
+
+      <LowStockAlert items={inventory} />
 
       {inventory.length > 0 ? (
         <DataTable

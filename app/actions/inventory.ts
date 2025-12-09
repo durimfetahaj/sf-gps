@@ -62,6 +62,23 @@ export async function getInventoryStats() {
   };
 }
 
+export async function getLowQuantityInventoryCount() {
+  try {
+    const count = await prisma.inventoryItem.count({
+      where: {
+        quantity: {
+          lt: 10, // less than 10
+        },
+      },
+    });
+
+    return count;
+  } catch (error) {
+    console.error("Error fetching low quantity inventory count:", error);
+    return 0; // return 0 on error
+  }
+}
+
 /* export async function deleteDriver(id: string) {
   // check if driver exists
   const driver = await getDriverById(id);

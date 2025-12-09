@@ -8,6 +8,7 @@ interface StatCardProps {
   icon?: LucideIcon;
   trend?: { value: number; positive: boolean };
   className?: string;
+  variant?: "default" | "alert";
 }
 
 export function StatCard({
@@ -17,20 +18,55 @@ export function StatCard({
   icon: Icon,
   trend,
   className,
+  variant = "default",
 }: StatCardProps) {
+  const isAlert = variant === "alert";
+
   return (
     <div
-      className={cn("rounded-xl border border-border bg-card p-5", className)}
+      className={cn(
+        "rounded-xl border p-5 transition-colors duration-200",
+        isAlert
+          ? "border-red-500 bg-red-50 text-red-700"
+          : "border-border bg-card text-card-foreground",
+        className
+      )}
     >
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <p className="mt-1 text-2xl font-bold text-card-foreground">
+          {/* Title */}
+          <p
+            className={cn(
+              "text-sm font-medium",
+              isAlert ? "text-red-600" : "text-muted-foreground"
+            )}
+          >
+            {title}
+          </p>
+
+          {/* Main Value */}
+          <p
+            className={cn(
+              "mt-1 text-2xl font-bold",
+              isAlert ? "text-red-800" : "text-card-foreground"
+            )}
+          >
             {value}
           </p>
+
+          {/* Optional Subtitle */}
           {subtitle && (
-            <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>
+            <p
+              className={cn(
+                "mt-1 text-xs",
+                isAlert ? "text-red-600" : "text-muted-foreground"
+              )}
+            >
+              {subtitle}
+            </p>
           )}
+
+          {/* Trend */}
           {trend && (
             <p
               className={cn(
@@ -38,14 +74,26 @@ export function StatCard({
                 trend.positive ? "text-primary" : "text-destructive"
               )}
             >
-              {trend.positive ? "+" : "-"}
-              {trend.value}% vom letzten Monat
+              {trend.positive ? "+" : ""}
+              {trend.value}% from last month
             </p>
           )}
         </div>
+
+        {/* Optional Icon */}
         {Icon && (
-          <div className="rounded-lg bg-secondary p-2.5">
-            <Icon className="h-5 w-5 text-primary" />
+          <div
+            className={cn(
+              "rounded-lg p-2.5",
+              isAlert ? "bg-red-500/20" : "bg-secondary"
+            )}
+          >
+            <Icon
+              className={cn(
+                "h-5 w-5",
+                isAlert ? "text-red-600" : "text-primary"
+              )}
+            />
           </div>
         )}
       </div>
