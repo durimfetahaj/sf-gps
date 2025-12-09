@@ -9,7 +9,7 @@ import { z } from "zod";
 export type VehicleFormValues = z.infer<typeof vehicleSchema>;
 
 export async function getVehicles() {
-  const vehicle = await prisma.vehicle.findMany();
+  const vehicle = await prisma.vehicle.findMany({ include: { driver: true } });
 
   return vehicle;
 }

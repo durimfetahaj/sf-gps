@@ -1,6 +1,6 @@
 "use client";
 
-import { Vehicle } from "@/app/generated/prisma";
+import { Prisma, Vehicle } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "../ui/badge";
 import Link from "next/link";
@@ -13,7 +13,11 @@ const defaultCell =
     return value && value.trim() !== "" ? value : fallback;
   };
 
-export const vehicleColumns: ColumnDef<Vehicle>[] = [
+type VehicleWithDriver = Prisma.VehicleGetPayload<{
+  include: { driver: true };
+}>;
+
+export const vehicleColumns: ColumnDef<VehicleWithDriver>[] = [
   {
     accessorKey: "licensePlate",
     header: "Kennzeichen",
@@ -77,6 +81,15 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
           }).format(value)}
         </div>
       );
+    },
+  },
+  {
+    accessorKey: "driver",
+    header: "Fahrer",
+    cell: ({ row }) => {
+      const driver = row.original.driver;
+
+      return <span>{driver ? driver.fullName : "Kein Fahrer"}</span>;
     },
   },
 ];
