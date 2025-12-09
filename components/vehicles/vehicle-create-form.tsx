@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 export function VehicleCreateForm({ onSuccess }: { onSuccess?: () => void }) {
   const form = useForm<VehicleFormValues>({
@@ -35,6 +36,8 @@ export function VehicleCreateForm({ onSuccess }: { onSuccess?: () => void }) {
     },
   });
 
+  const isPending = form.formState.isSubmitting;
+
   async function onSubmit(values: VehicleFormValues) {
     try {
       await createVehicle(values);
@@ -43,7 +46,7 @@ export function VehicleCreateForm({ onSuccess }: { onSuccess?: () => void }) {
     } catch (err) {
       console.error(err);
 
-      alert("Failed to create vehicle");
+      toast.error("Failed to create vehicle");
     }
   }
 
@@ -167,7 +170,10 @@ export function VehicleCreateForm({ onSuccess }: { onSuccess?: () => void }) {
         />
 
         <div className="flex justify-end pt-4">
-          <Button type="submit">Fahrzeug erstellen</Button>
+          <Button type="submit" disabled={isPending}>
+            {isPending && <Loader2 className="animate-spin mr-2" />}
+            {isPending ? "Hinzufügen..." : "Fahrzeug erstellen"}
+          </Button>
         </div>
       </form>
     </Form>

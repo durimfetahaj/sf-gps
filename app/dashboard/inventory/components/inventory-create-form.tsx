@@ -16,6 +16,7 @@ import {
   inventoryItemSchema,
 } from "@/lib/validators/inventory-item";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -33,6 +34,8 @@ export function InventoryCreateForm({
       quantity: 0,
     },
   });
+
+  const isPending = form.formState.isSubmitting;
 
   async function onSubmit(values: InventoryItemValues) {
     try {
@@ -85,7 +88,10 @@ export function InventoryCreateForm({
           <Button type="button" variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit">Add Item</Button>
+          <Button type="submit" disabled={isPending}>
+            {isPending && <Loader2 className="animate-spin mr-2" />}
+            {isPending ? "Hinzufügen..." : "Add Item"}
+          </Button>
         </div>
       </form>
     </Form>

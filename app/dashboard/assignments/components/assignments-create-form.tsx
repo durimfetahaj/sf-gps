@@ -33,7 +33,7 @@ import {
   AssignmentValues,
 } from "@/lib/validators/assignment";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -67,6 +67,8 @@ export function AssignmentsCreateForm({
       items: [],
     },
   });
+
+  const isPending = form.formState.isSubmitting;
 
   async function onSubmit(values: AssignmentValues) {
     try {
@@ -281,7 +283,10 @@ export function AssignmentsCreateForm({
             <Button type="button" variant="outline" onClick={onCancel}>
               Abbrechen
             </Button>
-            <Button type="submit">Element hinzufügen</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending && <Loader2 className="animate-spin mr-2" />}
+              {isPending ? "Hinzufügen..." : "Element hinzufügen"}
+            </Button>
           </div>
         </div>
 

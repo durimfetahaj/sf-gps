@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 export function WorkerCreateForm({
   onSuccess,
@@ -32,6 +33,8 @@ export function WorkerCreateForm({
       phone: "",
     },
   });
+
+  const isPending = form.formState.isSubmitting;
 
   async function onSubmit(values: WorkerFormValues) {
     try {
@@ -95,7 +98,10 @@ export function WorkerCreateForm({
         />
 
         <div className="flex justify-end pt-4">
-          <Button type="submit">Neu hinzufügen</Button>
+          <Button type="submit" disabled={isPending}>
+            {isPending && <Loader2 className="animate-spin mr-2" />}
+            {isPending ? "Hinzufügen..." : "Neu hinzufügen"}
+          </Button>
         </div>
       </form>
     </Form>
