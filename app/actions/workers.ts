@@ -36,6 +36,19 @@ export async function createWorker(data: {
   return newDriver;
 }
 
+export async function getWorkerById(id: string) {
+  try {
+    const worker = await prisma.worker.findUnique({
+      where: { id },
+      include: { vehicles: true },
+    });
+    return worker;
+  } catch (error) {
+    console.error("Error fetching worker:", error);
+    return null;
+  }
+}
+
 export async function getWorkersStats() {
   // Current workers count
   const currentCount = await prisma.worker.count();
