@@ -79,7 +79,7 @@ export default function UserMenu() {
           {/* Sign Out Action: Use Kinde's LogoutLink */}
           <DropdownMenuItem asChild>
             <LogoutLink className="w-full text-left cursor-pointer text-red-600 hover:text-red-700 block px-2 py-1.5 text-sm">
-              Log out
+              Abmelden
             </LogoutLink>
           </DropdownMenuItem>
         </DropdownMenuContent>

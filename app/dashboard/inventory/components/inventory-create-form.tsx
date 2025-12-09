@@ -37,12 +37,11 @@ export function InventoryCreateForm({
   async function onSubmit(values: InventoryItemValues) {
     try {
       await createInventoryItem(values);
-      toast.success("Inventory Item Added successfully!");
+      toast.success("Inventargegenstand erfolgreich hinzugefügt!");
       onSuccess?.();
     } catch (err) {
       console.error(err);
-
-      alert("Failed to add Inventory Item");
+      toast.error("Inventargegenstand konnte nicht hinzugefügt werden!");
     }
   }
 
@@ -54,7 +53,7 @@ export function InventoryCreateForm({
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Item Name</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input placeholder="Handschuhe" {...field} />
               </FormControl>
@@ -68,7 +67,7 @@ export function InventoryCreateForm({
           name="quantity"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Quantity</FormLabel>
+              <FormLabel>Menge des Gegenstands</FormLabel>
               <FormControl>
                 <Input
                   type="number"

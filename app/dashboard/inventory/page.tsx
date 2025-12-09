@@ -12,8 +12,8 @@ export default async function Inventory() {
     <main>
       <div className="flex justify-between mb-9">
         <PageHeader
-          title="Inventory"
-          description="Track tools, equipment and supplies"
+          title="Inventar"
+          description="Werkzeuge, Ausrüstung und Vorräte verfolgen"
         />
 
         <InventoryCreateDialog />
@@ -26,7 +26,7 @@ export default async function Inventory() {
           searchPlaceholder="Workers suchen..."
         />
       ) : (
-        <p className="text-center text-muted-foreground">No inventory.</p>
+        <p className="text-center text-muted-foreground">Kein Inventar.</p>
       )}
     </main>
   );

@@ -22,35 +22,35 @@ export default async function Home() {
         <div className="">
           <PageHeader
             title="Dashboard"
-            description="Overview of your workforce operations"
+            description="Übersicht über Ihre Mitarbeiteraktivitäten"
           />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
-            title="Total Workers"
+            title="Gesamtzahl der Mitarbeiter"
             value={workers.count}
             icon={Users}
             trend={workers.trend}
           />
           <StatCard
-            title="Available Vehicles"
+            title="Verfügbare Fahrzeuge"
             value={availableVehicles.length}
             icon={Truck}
-            subtitle="Ready for assignment"
+            subtitle="Bereit zur Zuweisung"
           />
 
           <StatCard
-            title="Inventory Items"
+            title="Inventargegenstände"
             value={inventory.count}
             icon={Package}
             trend={inventory.trend}
           />
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-2">
           <h2 className="text-lg font-semibold text-foreground">
-            Active Assignments
+            Aktive Aufgaben/Zuweisungen
           </h2>
           <DataTable
             data={assignments}

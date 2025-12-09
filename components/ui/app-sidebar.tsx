@@ -33,26 +33,26 @@ const allItems = [
   /*   { href: "/drivers", label: "Treiber", icon: Users, roles: ["admin"] }, */
   {
     href: "/dashboard/workers",
-    label: "Workers",
+    label: "Mitarbeiter",
     icon: Users,
     roles: ["admin"],
   },
   {
     href: "/dashboard/vehicles",
-    label: "Vehicles",
+    label: "Fahrzeuge",
     icon: Truck,
     roles: ["admin", "vehicle"],
   },
   {
     href: "/dashboard/inventory",
-    label: "Inventory",
+    label: "Inventar",
     icon: Package,
     roles: ["admin", "inventory"],
   },
   /* { href: "/wages", label: "Wages", icon: DollarSign, roles: ["admin"] }, */
   {
     href: "/dashboard/assignments",
-    label: "Assignments",
+    label: "Aufgaben",
     icon: ClipboardList,
     roles: ["admin"],
   },

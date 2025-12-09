@@ -19,8 +19,8 @@ export default async function AssingmentsPage() {
     <main>
       <div className="flex justify-between items-center mb-6">
         <PageHeader
-          title="Assignments"
-          description="Assign vehicles and items to workers"
+          title="Aufgaben/Zuweisungen"
+          description="Fahrzeuge und Gegenstände Mitarbeitern zuweisen"
         />
         <AssignmentsCreateDialog
           vehicles={vehicles}
@@ -36,7 +36,9 @@ export default async function AssingmentsPage() {
           searchPlaceholder="Fahrzeuge suchen..."
         />
       ) : (
-        <p className="text-center text-muted-foreground">No assignments.</p>
+        <p className="text-center text-muted-foreground">
+          Keine Aufgaben/Zuweisungen.
+        </p>
       )}
     </main>
   );

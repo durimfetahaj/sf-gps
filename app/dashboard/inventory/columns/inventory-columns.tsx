@@ -10,6 +10,6 @@ export const inventoryColumns: ColumnDef<InventoryItem>[] = [
   },
   {
     accessorKey: "quantity",
-    header: "Quantity",
+    header: "Menge",
   },
 ];

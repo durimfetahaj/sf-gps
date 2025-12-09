@@ -34,15 +34,15 @@ export function AssignmentsCreateDialog({
       <DialogTrigger asChild>
         <Button>
           <Plus className="h-4 w-4" />
-          New Assignment
+          Neue Aufgabe/Zuweisung
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>New Assignment</DialogTitle>
+          <DialogTitle>Neue Aufgabe/Zuweisung</DialogTitle>
           <DialogDescription>
-            Assign items to a worker, vehicle, or both.
+            Weisen Sie Gegenstände einem Mitarbeiter, Fahrzeug oder beidem zu.
           </DialogDescription>
         </DialogHeader>
 

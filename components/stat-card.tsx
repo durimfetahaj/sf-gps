@@ -39,7 +39,7 @@ export function StatCard({
               )}
             >
               {trend.positive ? "+" : "-"}
-              {trend.value}% from last month
+              {trend.value}% vom letzten Monat
             </p>
           )}
         </div>

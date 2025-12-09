@@ -88,7 +88,7 @@ export function AssignmentsCreateForm({
             name="assignedAt"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Assignation Date</FormLabel>
+                <FormLabel>Zuweisungsdatum</FormLabel>
                 <FormControl>
                   <DatePicker
                     value={field.value}
@@ -109,7 +109,7 @@ export function AssignmentsCreateForm({
                 options={inventory}
                 value={field.value ?? []}
                 onValueChange={field.onChange}
-                placeholder="Search and select items..."
+                placeholder="Gegenstände suchen und auswählen..."
               />
             )}
           />
@@ -124,12 +124,12 @@ export function AssignmentsCreateForm({
             >
               <div className="flex items-center gap-3">
                 <RadioGroupItem value="worker" id="r1" />
-                <Label htmlFor="r1">Worker</Label>
+                <Label htmlFor="r1">Mitarbeiter</Label>
               </div>
 
               <div className="flex items-center gap-3">
                 <RadioGroupItem value="vehicle" id="r3" />
-                <Label htmlFor="r3">Vehicle</Label>
+                <Label htmlFor="r3">Fahrzeug</Label>
               </div>
             </RadioGroup>
 
@@ -140,7 +140,7 @@ export function AssignmentsCreateForm({
                 name="workerId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Select Target Worker</FormLabel>
+                    <FormLabel>Zielmitarbeiter auswählen</FormLabel>
                     <FormControl>
                       <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
@@ -153,18 +153,20 @@ export function AssignmentsCreateForm({
                             {field.value
                               ? workers.find((w) => w.id === field.value)
                                   ?.fullName
-                              : "Select Worker"}
+                              : "Mitarbeiter auswählen"}
                             <ChevronsUpDown className="opacity-50" />
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="p-0" align="start">
                           <Command>
                             <CommandInput
-                              placeholder="Search workers..."
+                              placeholder="Mitarbeiter suchen..."
                               className="h-9"
                             />
                             <CommandList>
-                              <CommandEmpty>No worker found.</CommandEmpty>
+                              <CommandEmpty>
+                                Kein Mitarbeiter gefunden.
+                              </CommandEmpty>
                               <CommandGroup>
                                 {workers.map((worker) => (
                                   <CommandItem
@@ -209,7 +211,7 @@ export function AssignmentsCreateForm({
                 name="vehicleId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Select Target Vehicle</FormLabel>
+                    <FormLabel>Ziel-Fahrzeug auswählen</FormLabel>
                     <FormControl>
                       <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
@@ -222,18 +224,20 @@ export function AssignmentsCreateForm({
                             {field.value
                               ? vehicles.find((v) => v.id === field.value)
                                   ?.licensePlate
-                              : "Select Vehicle..."}
+                              : "Fahrzeug auswählen..."}
                             <ChevronsUpDown className="opacity-50" />
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="p-0" align="start">
                           <Command>
                             <CommandInput
-                              placeholder="Search vehicle..."
+                              placeholder="Fahrzeug suchen..."
                               className="h-9"
                             />
                             <CommandList>
-                              <CommandEmpty>No vehicle found.</CommandEmpty>
+                              <CommandEmpty>
+                                Kein Fahrzeug gefunden.
+                              </CommandEmpty>
                               <CommandGroup>
                                 {vehicles.map((vehicle) => (
                                   <CommandItem
@@ -275,9 +279,9 @@ export function AssignmentsCreateForm({
 
           <div className="flex justify-end gap-2.5 pt-4">
             <Button type="button" variant="outline" onClick={onCancel}>
-              Cancel
+              Abbrechen
             </Button>
-            <Button type="submit">Add Item</Button>
+            <Button type="submit">Element hinzufügen</Button>
           </div>
         </div>
 

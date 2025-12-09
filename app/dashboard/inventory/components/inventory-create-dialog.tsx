@@ -25,15 +25,15 @@ export function InventoryCreateDialog() {
       <DialogTrigger asChild>
         <Button>
           <Plus className="h-4 w-4" />
-          Add Item
+          Element hinzufügen
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add Inventory Item</DialogTitle>
+          <DialogTitle>Inventargegenstand hinzufügen</DialogTitle>
           <DialogDescription>
-            Add a new item to your inventory.
+            Fügen Sie einen neuen Gegenstand zu Ihrem Inventar hinzu.
           </DialogDescription>
         </DialogHeader>
 

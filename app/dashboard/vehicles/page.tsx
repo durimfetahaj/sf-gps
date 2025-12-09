@@ -13,8 +13,8 @@ export default async function VehiclesPage() {
       <>
         <div className="flex justify-between items-center mb-6">
           <PageHeader
-            title="Vehicles"
-            description="Manage your vehicle fleet"
+            title="Fahrzeuge"
+            description="Verwalten Sie Ihre Fahrzeugflotte"
           />
           <VehicleCreateDialog />
         </div>
@@ -25,7 +25,7 @@ export default async function VehiclesPage() {
             searchPlaceholder="Fahrzeuge suchen..."
           />
         ) : (
-          <p className="text-center text-muted-foreground">No vehicles.</p>
+          <p className="text-center text-muted-foreground">Keine Fahrzeuge.</p>
         )}
       </>
     </main>
