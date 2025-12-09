@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 export async function getWorkers() {
   return await prisma.worker.findMany();
@@ -24,7 +24,7 @@ export async function createWorker(data: {
     },
   });
 
-  updateTag("workers");
+  revalidatePath("workers");
 
   return newDriver;
 }
