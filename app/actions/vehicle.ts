@@ -57,6 +57,7 @@ export async function getVehicleById(id: string) {
   try {
     const vehicle = await prisma.vehicle.findUnique({
       where: { id },
+      include: { driver: true },
     });
     return vehicle;
   } catch (error) {

@@ -3,6 +3,7 @@ import { z } from "zod";
 export const workerSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
   email: z.email("Invalid email address").optional(),
+  vehicleId: z.string().optional(),
   phone: z.string().optional(),
 });
 

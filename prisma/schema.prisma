@@ -18,40 +18,9 @@ model Worker {
   updatedAt       DateTime     @updatedAt
   employmentStart DateTime?
   assignments     Assignment[]
+  vehicles        Vehicle[]
 
   @@map("workers")
-}
-
-model Assignment {
-  id         String    @id @default(cuid())
-  assignedAt DateTime  @default(now())
-  returnedAt DateTime?
-
-  workerId  String?
-  vehicleId String?
-
-  worker  Worker?  @relation(fields: [workerId], references: [id])
-  vehicle Vehicle? @relation(fields: [vehicleId], references: [id])
-
-  items AssignmentItem[]
-}
-
-model AssignmentItem {
-  id           String        @id @default(cuid())
-  assignmentId String
-  itemId       String
-  quantity     Int           @default(1)
-  assignment   Assignment    @relation(fields: [assignmentId], references: [id])
-  item         InventoryItem @relation(fields: [itemId], references: [id])
-}
-
-model InventoryItem {
-  id          String           @id @default(cuid())
-  name        String           @unique
-  quantity    Int
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  assignments AssignmentItem[]
 }
 
 model Vehicle {
@@ -69,6 +38,42 @@ model Vehicle {
   driverId        String?
   model           String?
   assignments     Assignment[]
+  driver          Worker?      @relation(fields: [driverId], references: [id])
 
   @@map("vehicles")
+}
+
+model Assignment {
+  id         String           @id @default(cuid())
+  workerId   String?
+  vehicleId  String?
+  assignedAt DateTime         @default(now())
+  returnedAt DateTime?
+  vehicle    Vehicle?         @relation(fields: [vehicleId], references: [id])
+  worker     Worker?          @relation(fields: [workerId], references: [id])
+  items      AssignmentItem[]
+
+  @@map("assignment")
+}
+
+model AssignmentItem {
+  id           String        @id @default(cuid())
+  assignmentId String
+  itemId       String
+  quantity     Int           @default(1)
+  assignment   Assignment    @relation(fields: [assignmentId], references: [id])
+  item         InventoryItem @relation(fields: [itemId], references: [id])
+
+  @@map("assignment_item")
+}
+
+model InventoryItem {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  quantity    Int
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  assignments AssignmentItem[]
+
+  @@map("inventory_item")
 }

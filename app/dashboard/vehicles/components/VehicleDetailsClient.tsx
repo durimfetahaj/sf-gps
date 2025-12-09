@@ -1,20 +1,11 @@
 "use client";
 
-import { Prisma, Vehicle } from "@/app/generated/prisma";
-import { DataTable } from "@/components/DataTable";
+import { Vehicle, Worker } from "@/app/generated/prisma";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import {
   ArrowLeft,
-  GaugeIcon,
   MapPinIcon,
   MapPinOff,
   TruckIcon,
@@ -23,10 +14,14 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+type VehicleWithDriver = Vehicle & {
+  driver: Worker | null;
+};
+
 export default function VehiclesDetailsClient({
   vehicle,
 }: {
-  vehicle: Vehicle;
+  vehicle: VehicleWithDriver;
 }) {
   const router = useRouter();
 
@@ -70,11 +65,11 @@ export default function VehiclesDetailsClient({
             )}
 
             <div className="flex items-center gap-2">
-              {vehicle.driverId ? (
-                <>
+              {vehicle.driver ? (
+                <Badge variant="outline" className="px-3 py-1.5">
                   <User className="h-4 w-4" />
-                  <span>{vehicle.driverId}</span>
-                </>
+                  <span>{vehicle.driver.fullName}</span>
+                </Badge>
               ) : (
                 <Badge variant="outline" className="px-3 py-1.5">
                   <UserX className="h-4 w-4" />

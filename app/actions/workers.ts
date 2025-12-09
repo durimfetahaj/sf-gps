@@ -14,6 +14,7 @@ export async function createWorker(data: {
   phone?: string;
   hourlyRate?: number;
   employmentStart?: Date;
+  vehicleId?: string;
 }) {
   const newDriver = await prisma.worker.create({
     data: {
@@ -22,6 +23,11 @@ export async function createWorker(data: {
       phone: data.phone,
       hourlyRate: data.hourlyRate,
       employmentStart: data.employmentStart,
+      vehicles: data.vehicleId
+        ? {
+            connect: { id: data.vehicleId },
+          }
+        : undefined,
     },
   });
 
