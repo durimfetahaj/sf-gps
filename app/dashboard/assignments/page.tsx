@@ -7,6 +7,8 @@ import { getWorkers } from "@/app/actions/workers";
 import { getInventory } from "@/app/actions/inventory";
 import { getAssignment } from "@/app/actions/assignment";
 
+export const revalidate = 0;
+
 export default async function AssingmentsPage() {
   const vehicles = await getVehicles();
   const workers = await getWorkers();

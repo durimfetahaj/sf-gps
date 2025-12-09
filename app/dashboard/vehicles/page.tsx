@@ -4,6 +4,8 @@ import { DataTable } from "@/components/DataTable";
 import { PageHeader } from "@/components/page-header";
 import { getVehicles } from "@/app/actions/vehicle";
 
+export const revalidate = 0;
+
 export default async function VehiclesPage() {
   const vehicles = await getVehicles();
   return (
