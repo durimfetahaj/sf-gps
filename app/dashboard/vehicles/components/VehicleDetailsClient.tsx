@@ -30,8 +30,6 @@ export default function VehiclesDetailsClient({
 }) {
   const router = useRouter();
 
-  console.log({ vehicle });
-
   return (
     <div className="container mx-auto space-y-6">
       <Button
