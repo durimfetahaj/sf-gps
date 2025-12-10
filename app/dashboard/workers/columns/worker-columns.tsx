@@ -16,14 +16,14 @@ export const workerColumns: ColumnDef<Worker>[] = [
   {
     accessorKey: "fullName",
     header: "Name",
-    cell: ({ row }) => (
+    /* cell: ({ row }) => (
       <Link
         className={`text-blue-600 hover:underline hover:bg-gray-50 px-2 py-1 rounded transition-colors duration-150 cursor-pointer`}
         href={`/dashboard/workers/${row.original.id}`}
       >
         {row.original.fullName}
       </Link>
-    ),
+    ), */
   },
   {
     accessorKey: "email",
