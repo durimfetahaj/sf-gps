@@ -283,7 +283,7 @@ export function AssignmentsCreateForm({
             <Button type="button" variant="outline" onClick={onCancel}>
               Abbrechen
             </Button>
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" disabled={isPending || !inventory.length}>
               {isPending && <Loader2 className="animate-spin mr-2" />}
               {isPending ? "Hinzufügen..." : "Element hinzufügen"}
             </Button>
