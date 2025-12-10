@@ -2,6 +2,7 @@
 
 import { InventoryItem } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
+import { InventoryEditDialog } from "../components/inventory-edit-dialog";
 
 export const inventoryColumns: ColumnDef<InventoryItem>[] = [
   {
@@ -23,6 +24,19 @@ export const inventoryColumns: ColumnDef<InventoryItem>[] = [
         >
           {quantity}
         </span>
+      );
+    },
+  },
+  {
+    accessorKey: "actions",
+    header: () => <div className="text-right mr-16">Actions</div>,
+    cell: ({ row }) => {
+      const item = row.original;
+
+      return (
+        <div className="text-right mr-10">
+          <InventoryEditDialog item={item} />
+        </div>
       );
     },
   },

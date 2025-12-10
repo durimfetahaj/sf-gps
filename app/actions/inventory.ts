@@ -2,6 +2,7 @@
 
 import { getTrend } from "@/lib/helpers/trend";
 import prisma from "@/lib/prisma";
+import { InventoryEditItemValues } from "@/lib/validators/inventory-edit-item";
 import { InventoryItemValues } from "@/lib/validators/inventory-item";
 import { revalidatePath } from "next/cache";
 
@@ -77,6 +78,30 @@ export async function getLowQuantityInventoryCount() {
     console.error("Error fetching low quantity inventory count:", error);
     return 0; // return 0 on error
   }
+}
+
+export async function updateInventoryItem(
+  id: string,
+  data: InventoryEditItemValues
+) {
+  const existing = await prisma.inventoryItem.findUnique({
+    where: { id },
+  });
+
+  if (!existing) {
+    throw new Error("Inventory item not found.");
+  }
+
+  const updated = await prisma.inventoryItem.update({
+    where: { id },
+    data: {
+      name: data.name ?? existing.name,
+      quantity: data.quantity !== undefined ? data.quantity : existing.quantity,
+    },
+  });
+
+  revalidatePath("/inventory");
+  return updated;
 }
 
 /* export async function deleteDriver(id: string) {
