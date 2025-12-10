@@ -12,6 +12,7 @@ import {
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { InventoryEditForm } from "./inventory-edit-form";
+import { Pencil } from "lucide-react";
 
 export function InventoryEditDialog({ item }: { item: InventoryItem }) {
   const [open, setOpen] = useState(false);
@@ -23,7 +24,9 @@ export function InventoryEditDialog({ item }: { item: InventoryItem }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Bearbeiten</Button>
+        <Button>
+          <Pencil />
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">

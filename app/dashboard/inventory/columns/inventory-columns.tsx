@@ -29,7 +29,7 @@ export const inventoryColumns: ColumnDef<InventoryItem>[] = [
   },
   {
     accessorKey: "actions",
-    header: () => <div className="text-right mr-16">Actions</div>,
+    header: () => <div className="text-right mr-8">Actions</div>,
     cell: ({ row }) => {
       const item = row.original;
 
