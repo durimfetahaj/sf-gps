@@ -43,11 +43,11 @@ export function InventoryEditForm({
   async function onSubmit(values: InventoryEditItemValues) {
     try {
       await updateInventoryItem(item.id, values);
-      toast.success("Inventargegenstand erfolgreich hinzugefügt!");
+      toast.success("Inventargegenstand erfolgreich bearbeitet!");
       onSuccess?.();
     } catch (err) {
       console.error(err);
-      toast.error("Inventargegenstand konnte nicht hinzugefügt werden!");
+      toast.error("Der Inventargegenstand konnte nicht bearbeitet werden!");
     }
   }
 
