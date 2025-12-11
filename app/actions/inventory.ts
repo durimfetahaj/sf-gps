@@ -7,7 +7,11 @@ import { InventoryItemValues } from "@/lib/validators/inventory-item";
 import { revalidatePath } from "next/cache";
 
 export async function getInventory() {
-  return await prisma.inventoryItem.findMany();
+  return await prisma.inventoryItem.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 }
 
 export async function createInventoryItem(data: InventoryItemValues) {
