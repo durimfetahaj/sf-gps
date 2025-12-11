@@ -9,7 +9,7 @@ interface LowStockAlertProps {
 }
 
 export function LowStockAlert({ items }: LowStockAlertProps) {
-  const lowStockItems = items.filter((item) => item.quantity <= 10);
+  const lowStockItems = items.filter((item) => item.quantity <= 5);
 
   if (lowStockItems.length === 0) return null;
 

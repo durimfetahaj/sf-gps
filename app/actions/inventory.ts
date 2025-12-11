@@ -68,7 +68,7 @@ export async function getLowQuantityInventoryCount() {
     const count = await prisma.inventoryItem.count({
       where: {
         quantity: {
-          lt: 10, // less than 10
+          lt: 5, // less than 10
         },
       },
     });
