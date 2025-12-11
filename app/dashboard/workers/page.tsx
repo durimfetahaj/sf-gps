@@ -12,7 +12,7 @@ export default async function WorkersPage() {
   const workers = await getWorkers();
   return (
     <div>
-      <div className="flex justify-between items-center mb-9">
+      <div className="flex flex-col mb-9 gap-4 text-xs md:flex-row justify-between">
         <PageHeader
           title="Arbeiter"
           description="Verwalten Sie Ihre Belegschaft"

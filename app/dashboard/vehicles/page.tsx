@@ -11,7 +11,7 @@ export default async function VehiclesPage() {
   return (
     <main>
       <>
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col mb-9 gap-4 text-xs md:flex-row justify-between">
           <PageHeader
             title="Fahrzeuge"
             description="Verwalten Sie Ihre Fahrzeugflotte"
