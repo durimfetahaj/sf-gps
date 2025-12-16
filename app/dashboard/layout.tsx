@@ -8,15 +8,6 @@ export default async function DashboardLayout({
 }: {
   children: ReactNode;
 }) {
-  // Protect all routes under /dashboard
-  /* await requireAuth(); */
-
-  return (
-    <div className="flex items-center justify-center text-red-500 h-screen">
-      <h1 className="text-9xl">oj e keqe na harrove</h1>
-    </div>
-  );
-
   return (
     <SidebarProvider>
       <div className="flex h-full w-full">
