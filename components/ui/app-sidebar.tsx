@@ -44,6 +44,12 @@ const allItems = [
     roles: ["admin", "vehicle"],
   },
   {
+    href: "/dashboard/machines",
+    label: "Maschinen",
+    icon: Truck,
+    roles: ["admin", "vehicle"],
+  },
+  {
     href: "/dashboard/inventory",
     label: "Inventar",
     icon: Package,
