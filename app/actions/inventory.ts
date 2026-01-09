@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache";
 export async function getInventory() {
   return await prisma.inventoryItem.findMany({
     orderBy: {
-      createdAt: "desc",
+      name: "asc",
     },
   });
 }
