@@ -18,8 +18,8 @@ export const inventoryColumns: ColumnDef<InventoryItem>[] = [
       return (
         <span
           style={{
-            color: quantity <= 5 ? "red" : "inherit",
-            fontWeight: quantity <= 5 ? "bold" : "normal",
+            color: quantity <= 15 ? "red" : "inherit",
+            fontWeight: quantity <= 15 ? "bold" : "normal",
           }}
         >
           {quantity}
