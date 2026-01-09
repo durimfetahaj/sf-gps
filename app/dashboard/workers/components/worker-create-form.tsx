@@ -47,8 +47,6 @@ export function WorkerCreateForm({
     resolver: zodResolver(workerSchema),
     defaultValues: {
       fullName: "",
-      email: "",
-      phone: "",
       vehicleId: undefined,
     },
   });
@@ -78,24 +76,6 @@ export function WorkerCreateForm({
               <FormLabel>Vollständiger Name</FormLabel>
               <FormControl>
                 <Input placeholder="Maximilian Müller" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>E-mail</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder="maximilian@sfbaugmbh.de"
-                  {...field}
-                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -161,20 +141,6 @@ export function WorkerCreateForm({
                     </Command>
                   </PopoverContent>
                 </Popover>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Telefon</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="123456789" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
