@@ -1,18 +1,24 @@
 "use client";
 
-import { Worker } from "@/app/generated/prisma";
+import { Prisma } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
+import { InventoryDialog } from "../components/inventory-item-dialog";
 
-const defaultCell =
-  (fallback = "—") =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ({ getValue }: any) => {
-    const value = getValue();
-    return value && value.trim() !== "" ? value : fallback;
+type WorkerWithAssignments = Prisma.WorkerGetPayload<{
+  include: {
+    assignments: {
+      include: {
+        items: {
+          include: {
+            item: true;
+          };
+        };
+      };
+    };
   };
+}>;
 
-export const workerColumns: ColumnDef<Worker>[] = [
+export const workerColumns: ColumnDef<WorkerWithAssignments>[] = [
   {
     accessorKey: "fullName",
     header: "Name",
@@ -26,12 +32,20 @@ export const workerColumns: ColumnDef<Worker>[] = [
     ), */
   },
   {
-    accessorKey: "email",
-    header: "E-mail",
-  },
-  {
-    accessorKey: "phone",
-    header: "Telefon",
-    cell: defaultCell("N/A"),
+    header: "Inventory",
+    cell: ({ row }) => {
+      const assignments = row.original.assignments ?? [];
+
+      const itemCount = assignments.reduce(
+        (sum, a) => sum + (a.items?.length ?? 0),
+        0
+      );
+
+      return itemCount ? (
+        <InventoryDialog assignments={assignments} />
+      ) : (
+        <span className="text-muted-foreground">—</span>
+      );
+    },
   },
 ];

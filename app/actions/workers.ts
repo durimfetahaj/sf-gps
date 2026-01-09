@@ -9,6 +9,17 @@ export async function getWorkers() {
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      assignments: {
+        include: {
+          items: {
+            include: {
+              item: true,
+            },
+          },
+        },
+      },
+    },
   });
 }
 
