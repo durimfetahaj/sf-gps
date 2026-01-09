@@ -8,6 +8,7 @@ export const revalidate = 0;
 
 export default async function VehiclesPage() {
   const vehicles = await getVehicles();
+
   return (
     <main>
       <>

@@ -1,9 +1,10 @@
 "use client";
 
-import { Prisma, Vehicle } from "@/app/generated/prisma";
+import { Prisma } from "@/app/generated/prisma";
 import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "../ui/badge";
 import Link from "next/link";
+import { InventoryDialog } from "../inventory-item-dialog";
+import { Badge } from "../ui/badge";
 
 const defaultCell =
   (fallback = "—") =>
@@ -13,11 +14,22 @@ const defaultCell =
     return value && value.trim() !== "" ? value : fallback;
   };
 
-type VehicleWithDriver = Prisma.VehicleGetPayload<{
-  include: { driver: true };
+type VehicleWithDriverAndAssignments = Prisma.VehicleGetPayload<{
+  include: {
+    driver: true;
+    assignments: {
+      include: {
+        items: {
+          include: {
+            item: true;
+          };
+        };
+      };
+    };
+  };
 }>;
 
-export const vehicleColumns: ColumnDef<VehicleWithDriver>[] = [
+export const vehicleColumns: ColumnDef<VehicleWithDriverAndAssignments>[] = [
   {
     accessorKey: "licensePlate",
     header: "Kennzeichen",
@@ -80,6 +92,23 @@ export const vehicleColumns: ColumnDef<VehicleWithDriver>[] = [
             maximumFractionDigits: 2,
           }).format(value)}
         </div>
+      );
+    },
+  },
+  {
+    header: "Assignments",
+    cell: ({ row }) => {
+      const assignments = row.original.assignments ?? [];
+
+      const itemCount = assignments.reduce(
+        (sum, a) => sum + (a.items?.length ?? 0),
+        0
+      );
+
+      return itemCount ? (
+        <InventoryDialog assignments={assignments} />
+      ) : (
+        <span className="text-muted-foreground">—</span>
       );
     },
   },

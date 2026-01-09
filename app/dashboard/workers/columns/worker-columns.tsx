@@ -1,8 +1,8 @@
 "use client";
 
 import { Prisma } from "@/app/generated/prisma";
+import { InventoryDialog } from "@/components/inventory-item-dialog";
 import { ColumnDef } from "@tanstack/react-table";
-import { InventoryDialog } from "../components/inventory-item-dialog";
 
 type WorkerWithAssignments = Prisma.WorkerGetPayload<{
   include: {
